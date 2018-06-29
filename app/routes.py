@@ -40,7 +40,12 @@ def akts():
     return render_template('akts.html', title = 'Акты')
 
 @app.route('/drivers')
+def drivers():
+    driveuser = {'fio': 'ФИО',
+                 'seriya': 'Серия паспорта',
+                 'nomer': 'Номер паспорта'}
 
+    return render_template('drivers.html', title = 'Водители', drive = drive, driveuser=driveuser)
 
 @app.route('/add_drive')
 @app.route('/drivers', methods=['POST', 'GET'])
@@ -56,7 +61,7 @@ def add_drive():
 
         flash('Новый пост добавлен')
 
-        return redirect(url_for('index'))
+        return redirect(url_for('drivers'))
     else:
         return render_template('add_drive.html')
 

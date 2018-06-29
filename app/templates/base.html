@@ -1,32 +1,3 @@
-{# <html>
-{#    <head>
-{#        {% if title %}
-{#        <title>{{ title }} - MegaTaxi</title>
-{#        {% else %}
-{#        <title>Welcome to MegaTaxi</title>
-{#        {% endif %}
-{#    </head>
-{#    <body>
-{#        <div>
-{#            MegaTaxi:
-{#            <a href="{{ url_for('index') }}">Home</a>
-{#            <a href="{{ url_for('login') }}">Авторизация</a>
-{#        </div>
-{#        <hr>
-{#        {% with messages = get_flashed_messages() %}
-{#        {% if messages %}
-{#        <ul>
-{#            {% for message in messages %}
-{#            <li>{{ message }}</li>
-{#            {% endfor %}
-{#        </ul>
-{#        {% endif %}
-{#        {% endwith %}
-{#        {% block content %}{% endblock %}
-{#    </body>
-{#</html> #}
-
-
 <html>
   <head>
     <meta charset="utf-8">
@@ -88,17 +59,18 @@
         </ul>
         {% endif %}
         {% endwith %}
-    <main role="main" class="main-content">
-        {%  block h1%}
-        {% endblock %}
-        {% block right_content %}
-        {% endblock %}
-    </main>
+
 
     <main  class="container">
 
           {% block content %}{% endblock %}
 
+    </main>
+    <main role="main" class="main-content">
+        {%  block h1%}
+        {% endblock %}
+        {% block right_content %}
+        {% endblock %}
     </main>
 
     <!-- Bootstrap core JavaScript

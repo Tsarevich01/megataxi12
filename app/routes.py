@@ -66,6 +66,7 @@ def add_drive():
 
 
 @app.route('/car')
+#авто
 def car():
     usercar = {
         'marka': 'Марка',

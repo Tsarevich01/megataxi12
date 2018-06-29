@@ -2,8 +2,8 @@ from app import db
 
 
 scheme_sql = '''
-DROP TABLE IF EXISTS driver
-DROP TABLE IF EXISTS car
+DROP TABLE IF EXISTS driver;
+DROP TABLE IF EXISTS car;
 
 CREATE TABLE driver (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -12,7 +12,7 @@ CREATE TABLE driver (
   middle_name TEXT NOT NULL,
   series INTEGER UNIQUE NOT NULL,
   number INTEGER UNIQUE NOT NULL,
-  block BOOLEAN NULL,
+  block bit NULL DEFAULT 0,
   block_reason TEXT NULL,
   car_id INTEGER NULL
 ); 
@@ -25,6 +25,7 @@ CREATE TABLE car (
   sts INTEGER UNIQUE NOT NULL
 );
 '''
+# Сканов нема
 
 
 def run():

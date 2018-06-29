@@ -1,0 +1,11 @@
+<!{% extends "base.html" %}
+
+{% block content %}
+    <h1>Список автомобилей</h1>
+    <h3>{{ user_car.brand }}    |    {{ user_car.model }}  |  {{ user_car.numberplate }}</h3>
+    <div>
+    {% for car in cars %}
+        <p>{{ car.brand }} | {{ car.model }} | {{ car.numberplate }}</p>
+    {% endfor %}
+    </div>
+{% endblock %}

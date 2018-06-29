@@ -1,11 +1,11 @@
-<!{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
     <h1>Список водителей</h1>
-    <h3>{{ driveuser.fio }}    |    {{ driveuser.seriya }}  |  {{ driveuser.nomer }}</h3>
-    {% for dr in drive %}
-    <div><p>{{ dr.fio }} | {{ dr.seriya }} | {{ dr.nomer }}</p>
-
-    </div>
+    <h3>{{ driveuser.fio }}    |    {{ driveuser.series }}  |  {{ driveuser.number }}</h3>
+    <div>
+    {% for driver in drivers %}
+    <p>{{ driver.second_name }} {{ driver.first_name }} {{ driver.middle_name }} | {{ driver.series }} | {{ driver.number }}</p>
     {% endfor %}
+    </div>
 {% endblock %}

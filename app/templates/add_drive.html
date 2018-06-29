@@ -1,22 +1,26 @@
 {% extends 'base.html' %}
-{% block h1 %}
-Новый водитель
-{% endblock %}
 
-
-{% block right_content %}
+{% block content %}
     <form method="post">
     <div class="form-group">
-      <label for="fio">ФИО</label>
-      <input type="text" class="form-control" id="fio" name="fio" placeholder="Ваше имя">
+      <label for="second_name">Фамилия</label>
+      <input type="text" class="form-control" id="second_name" name="second_name" placeholder="Иванов">
     </div>
     <div class="form-group">
-      <label for="seriya">Серия паспорта</label>
-      <input type="text" class="form-control" id="seriya" name="seriya" placeholder="Серия паспорта">
+      <label for="first_name">Имя</label>
+      <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Иван">
     </div>
     <div class="form-group">
-      <label for="nomer">Серия паспорта</label>
-      <input type="text" class="form-control" id="nomer" name="nomer" placeholder="Номер паспорта">
+      <label for="middle_name">Отчество</label>
+      <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Иванович">
+    </div>
+    <div class="form-group">
+      <label for="series">Серия паспорта</label>
+      <input type="text" class="form-control" id="series" name="series" placeholder="0000">
+    </div>
+    <div class="form-group">
+      <label for="number">Номер паспорта</label>
+      <input type="text" class="form-control" id="number" name="number" placeholder="999999">
     </div>
 
     <button type="submit" class="btn btn-primary">Добавить</button>

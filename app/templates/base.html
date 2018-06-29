@@ -1,3 +1,32 @@
+{# <html>
+{#    <head>
+{#        {% if title %}
+{#        <title>{{ title }} - MegaTaxi</title>
+{#        {% else %}
+{#        <title>Welcome to MegaTaxi</title>
+{#        {% endif %}
+{#    </head>
+{#    <body>
+{#        <div>
+{#            MegaTaxi:
+{#            <a href="{{ url_for('index') }}">Home</a>
+{#            <a href="{{ url_for('login') }}">Авторизация</a>
+{#        </div>
+{#        <hr>
+{#        {% with messages = get_flashed_messages() %}
+{#        {% if messages %}
+{#        <ul>
+{#            {% for message in messages %}
+{#            <li>{{ message }}</li>
+{#            {% endfor %}
+{#        </ul>
+{#        {% endif %}
+{#        {% endwith %}
+{#        {% block content %}{% endblock %}
+{#    </body>
+{#</html> #}
+
+
 <html>
   <head>
     <meta charset="utf-8">
@@ -17,13 +46,12 @@
 
     <!-- Custom styles for this template -->
     <link href="navbar-top.css" rel="stylesheet">
-  <link href="style.css" rel="stylesheet">
   </head>
 
   <body>
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-      <a class="navbar-brand" href="{{ url_for('index') }}">Главная</a>
+      <a class="navbar-brand" href="{{ url_for('index') }}">MegaTAXI</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -36,10 +64,10 @@
             <a class="nav-link" href="{{ url_for('car') }}">Машины</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " href="{{ url_for('akts') }}">Акты</a>
+            <a class="nav-link " href="{{ url_for('acts') }}">Акты</a>
           </li>
             <li class="nav-item">
-            <a class="nav-link " href="#">Черный список</a>
+            <a class="nav-link " href="{{ url_for('blacklist') }}">Черный список</a>
           </li>
             <li class="nav-item">
             <a class="nav-link " href="{{ url_for('login') }}">Авторизация</a>
@@ -59,18 +87,15 @@
         </ul>
         {% endif %}
         {% endwith %}
+    <main role="main" class="main-content">
+        {% block right_content %}
+        {% endblock %}
+    </main>
 
-
-    <main  class="container">
+    <main role="main" class="container">
 
           {% block content %}{% endblock %}
 
-    </main>
-    <main role="main" class="main-content">
-        {%  block h1%}
-        {% endblock %}
-        {% block right_content %}
-        {% endblock %}
     </main>
 
     <!-- Bootstrap core JavaScript

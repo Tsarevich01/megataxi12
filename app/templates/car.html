@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!{% extends "base.html" %}
 
-</body>
-</html>
+{% block content %}
+    <h1>Список автомобилей</h1>
+    <h3>{{ usercar.marka }}    |    {{ usercar.model }}  |  {{ usercar.znak }}</h3>
+    {% for cr in car %}
+    <div>
+        <p>{{ cr.marka }} | {{ cr.model }} | {{ cr.znak }}</p>
+    </div>
+    {% endfor %}
+{% endblock %}

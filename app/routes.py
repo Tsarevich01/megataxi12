@@ -49,13 +49,13 @@ def drivers():
 @app.route('/add_drive', methods=['POST', 'GET'])
 def add_drive():
     if request.method == 'POST':
-        drive = {
+        drives = {
             'fio': request.form['fio'],
             'seriya': request.form['seriya'],
-            'nomer': request.form['body'],
+            'nomer': request.form['nomer'],
 
         }
-        drivers.append(drive)
+        drivers.append(drives)
 
         flash('Новый пост добавлен')
 

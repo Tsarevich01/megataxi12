@@ -4,6 +4,16 @@ from flask import render_template, flash, redirect, url_for, request
 from app import app
 from app.forms import LoginForm
 
+drivers = [
+    {
+        'second_name': 'Иванов',
+        'first_name': 'Иван',
+        'middle_name': 'Иванович',
+        'series': '2001',
+        'number': '123456',
+    }
+]
+
 
 # Главная
 @app.route('/')
@@ -22,7 +32,7 @@ def login():
         flash('Login requested for user {}, remember_me={}'.format(
             form.username.data, form.remember_me.data))
         return redirect(url_for('index'))
-    return render_template('login.html',  title='Авторизация', form=form)
+    return render_template('login.html', title='Авторизация', form=form)
 
 
 # Акты
@@ -38,23 +48,14 @@ def blacklist():
 
 
 # Водители
-@app.route('/drivers')
-def drivers():
+@app.route('/driverst')
+def driverst():
     # Это зачем??
     driveuser = {'fio': 'ФИО',
                  'series': 'Серия паспорта',
                  'number': 'Номер паспорта'}
     # Вот сверху
 
-    drivers = [
-        {
-            'second_name': 'Иванов',
-            'first_name': 'Иван',
-            'middle_name': 'Иванович',
-            'series': '2001',
-            'number': '123456',
-        }
-    ]
     return render_template('drivers.html', title='Водители', drivers=drivers, driveuser=driveuser)
 
 
@@ -73,7 +74,7 @@ def add_driver():
 
         flash('Новый водитель добавлен')
 
-        return redirect(url_for('drivers'))
+        return redirect(url_for('driverst'))
     else:
         return render_template('add_driver.html')
 

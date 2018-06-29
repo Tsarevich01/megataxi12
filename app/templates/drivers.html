@@ -4,7 +4,7 @@
     <h1>Список водителей</h1>
     <h3>{{ driveuser.fio }}    |    {{ driveuser.seriya }}  |  {{ driveuser.nomer }}</h3>
     {% for dr in drive %}
-    <div><p>{{ dr.fio.familiya }} {{ dr.fio.imya }} {{ dr.fio.otchestvo }} | {{ dr.seriya }} | {{ dr.nomer }}</p>
+    <div><p>{{ dr.fio }} | {{ dr.seriya }} | {{ dr.nomer }}</p>
 
     </div>
     {% endfor %}

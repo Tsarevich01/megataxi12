@@ -5,6 +5,16 @@ from app import app
 from app.forms import LoginForm
 
 
+drive= [
+    {
+        'fio': 'Иванов А.А.',
+        'seriya': '2001',
+        'nomer': '123456',
+    },
+]
+
+
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -30,23 +40,10 @@ def akts():
     return render_template('akts.html', title = 'Акты')
 
 @app.route('/drivers')
-def drivers():
-    driveuser = {'fio': 'ФИО',
-                 'seriya': 'Серия паспорта',
-                 'nomer': 'Номер паспорта'}
-    drive = [
-        {
-            'fio': {'familiya': 'Иванов',
-                    'imya': 'Иван',
-                    'otchestvo': 'Иванович'},
-            'seriya': '2001',
-            'nomer': '123456',
-        },
-    ]
-    return render_template('drivers.html', title = 'Водители', drive = drive, driveuser=driveuser)
 
 
-@app.route('/add_drive', methods=['POST', 'GET'])
+@app.route('/add_drive')
+@app.route('/drivers', methods=['POST', 'GET'])
 def add_drive():
     if request.method == 'POST':
         drives = {
@@ -55,11 +52,11 @@ def add_drive():
             'nomer': request.form['nomer'],
 
         }
-        drivers.append(drives)
+        drive.append(drives)
 
         flash('Новый пост добавлен')
 
-        return redirect(url_for('drivers'))
+        return redirect(url_for('index'))
     else:
         return render_template('add_drive.html')
 

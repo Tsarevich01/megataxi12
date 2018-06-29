@@ -46,6 +46,7 @@
 
     <!-- Custom styles for this template -->
     <link href="navbar-top.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
   </head>
 
   <body>
@@ -88,11 +89,13 @@
         {% endif %}
         {% endwith %}
     <main role="main" class="main-content">
+        {%  block h1%}
+        {% endblock %}
         {% block right_content %}
         {% endblock %}
     </main>
 
-    <main role="main" class="container">
+    <main  class="container">
 
           {% block content %}{% endblock %}
 

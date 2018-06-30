@@ -1,4 +1,4 @@
-from app import db
+import db
 
 
 schema_sql = '''

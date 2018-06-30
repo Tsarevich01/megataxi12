@@ -6,9 +6,9 @@ INSERT INTO driver (second_name, first_name, middle_name, series, number, block,
 INSERT INTO driver (second_name, first_name, middle_name, series, number, block, block_reason, car_id) VALUES ("Владимиров", "Владимир", "Владимирович", 8956, 458912, null, null, 2);
 INSERT INTO driver (second_name, first_name, middle_name, series, number, block, block_reason, car_id) VALUES ("Алексндров", "Александр", "Александрович", 6548, 985642, null, null, 3);
 
-INSERT INTO car (id, brand, model, vin, sts) VALUES (1, "LADA", "Kalina", 456679, 135487);
-INSERT INTO car (id, brand, model, vin, sts) VALUES (2, "RENAULT", "Logan", 987466, 654641);
-INSERT INTO car (id, brand, model, vin, sts) VALUES (3, "Lambogini", "Aventador", 146688, 569413);
+INSERT INTO car (id, brand, model, numberplate, vin, sts) VALUES (1, "LADA", "Kalina", "AD692V", 456679, 135487);
+INSERT INTO car (id, brand, model, numberplate, vin, sts) VALUES (2, "RENAULT", "Logan", "AD600P", 987466, 654641);
+INSERT INTO car (id, brand, model, numberplate, vin, sts) VALUES (3, "Lambogini", "Aventador", "RF122V", 146688, 569413);
 '''
 
 

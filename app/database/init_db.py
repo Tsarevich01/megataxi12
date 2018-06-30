@@ -1,5 +1,4 @@
-from app import db
-
+from app.database import db
 
 schema_sql = '''
 DROP TABLE IF EXISTS driver;
@@ -21,6 +20,7 @@ CREATE TABLE car (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   brand TEXT NOT NULL,
   model TEXT NOT NULL,
+  numberplate TEXT NOT NULL,
   vin INTEGER UNIQUE NOT NULL,
   sts INTEGER UNIQUE NOT NULL
 );

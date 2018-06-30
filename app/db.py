@@ -7,7 +7,7 @@ def get_db():
     return conn, cur
 
 
-# all drivers
+# All drivers
 def get_all_drivers():
     conn, cur = get_db()
     driver_rows = cur.execute(
@@ -30,7 +30,7 @@ def get_all_drivers():
     return drivers
 
 
-# one driver
+# One driver
 def get_driver(driver_id):
     conn, cur = get_db()
     driver_row = cur.execute(
@@ -50,7 +50,7 @@ def get_driver(driver_id):
     return driver
 
 
-# add new driver
+# Add new driver
 def add_driver(second_name, first_name, middle_name, series, number, car_id):
     conn, cur = get_db()
     cur.execute(
@@ -59,17 +59,49 @@ def add_driver(second_name, first_name, middle_name, series, number, car_id):
     )
     conn.commit()
 
-# all cars
+
+# Get all cars
 def get_all_cars():
+    conn, cur = get_db()
+    car_rows = cur.execute(
+        'SELECT id, brand, model, vin, sts FROM car ORDER BY DESC '
+    ).fetchall()
+    cars = []
+    for car_row in car_rows:
+        car = {
+            'id': car_row[0],
+            'brand': car_row[1],
+            'model': car_row[2],
+            'vin': car_row[3],
+            'sts': car_row[4]
+        }
     return cars
 
-# one car
-def get_car():
+
+# Get one car
+def get_car(car_id):
+    conn, cur = get_db()
+    car_row = cur.execute(
+        'SELECT brand, model, vin, sts FROM car WHERE id = ?',
+        [car_id]
+    ).fetchone()
+    car = {
+        'id': car_id,
+        'brand': car_row[0],
+        'model': car_row[1],
+        'vin': car_row[2],
+        'sts': car_row[3]
+    }
     return car
 
 
-#add new car
-def add_car():
+# Add new car
+def add_car(brand, model, vin, sts):
+    conn, cur = get_db()
+    cur.execute(
+        'INSERT INTO car (brand, model, vin, sts) VALUES (?, ?, ?, ?)',
+        [brand, model, vin, sts]
+    )
     conn.commit()
 
 

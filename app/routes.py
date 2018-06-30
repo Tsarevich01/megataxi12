@@ -29,7 +29,7 @@ def login():
 # Акты
 @app.route('/acts')
 def acts():
-    return render_template('static/acts.html', title='Акты')
+    return render_template('acts.html', title='Акты')
 
 
 # ЧС

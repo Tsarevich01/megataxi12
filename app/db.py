@@ -10,3 +10,16 @@ def get_db():
 if __name__ == '__main__':
     from app import init_db as idb
     idb.run()
+
+
+#all drives
+def get_drives():
+    return drives;
+
+#one drive
+def get_drive():
+    return drive
+
+#push drive
+def add_drive():
+    conn.commit()

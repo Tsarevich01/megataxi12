@@ -1,7 +1,7 @@
 import datetime
 
 from flask import render_template, flash, redirect, url_for, request
-from app import app
+from app import app, db
 from app.forms import LoginForm
 
 drivers = [
@@ -60,22 +60,28 @@ def driverst():
 
 
 # Добавить водителя
+@app.route('/driverst')
 @app.route('/add_drive', methods=['POST', 'GET'])
 def add_driver():
     if request.method == 'POST':
-        drives = {
-            'second_name': request.form['second_name'],
-            'first_name': request.form['first_name'],
-            'middle_name': request.form['middle_name'],
-            'series': request.form['series'],
-            'number': request.form['number']
-        }
-        drivers.append(drives)
+        db.add_driver(
+            second_name= request.form['second_name'],
+            first_name= request.form['first_name'],
+            middle_name= request.form['middle_name'],
+            series= request.form['series'],
+            number= request.form['number'],
+            car_id = request.form['car_id'])
+
+
+
+
+
 
         flash('Новый водитель добавлен')
 
         return redirect(url_for('driverst'))
     else:
+
         return render_template('add_driver.html')
 
 
@@ -97,3 +103,26 @@ def car():
         }
     ]
     return render_template('cars.html', title='Машины', cars=cars, user_car=user_car)
+
+@app.route('/car')
+@app.route('/add_car', methods=['POST', 'GET'])
+def add_car():
+    if request.method == 'POST':
+        db.add_car(
+            brand= request.form['brand'],
+            model= request.form['model'],
+            numberlate= request.form['numberlate'],
+            vin= request.form['vin'],
+            sts= request.form['sts'])
+
+
+
+
+
+
+        flash('Новый автомобиль добавлен')
+
+        return redirect(url_for('car'))
+    else:
+
+        return render_template('add_car.html')

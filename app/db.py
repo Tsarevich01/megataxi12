@@ -59,6 +59,19 @@ def add_driver(second_name, first_name, middle_name, series, number, car_id):
     )
     conn.commit()
 
+# all cars
+def get_all_cars():
+    return cars
+
+# one car
+def get_car():
+    return car
+
+
+#add new car
+def add_car():
+    conn.commit()
+
 
 if __name__ == '__main__':
     from app import init_db as idb

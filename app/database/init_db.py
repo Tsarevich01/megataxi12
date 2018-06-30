@@ -1,8 +1,7 @@
-from app.database import db
-
+import db
 schema_sql = '''
 DROP TABLE IF EXISTS driver;
-DROP TABLE IF EXISTS car;
+DROP TABLE IF EXISTS cars;
 
 CREATE TABLE driver (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -16,7 +15,7 @@ CREATE TABLE driver (
   car_id INTEGER NULL
 ); 
 
-CREATE TABLE car (
+CREATE TABLE cars (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   brand TEXT NOT NULL,
   model TEXT NOT NULL,

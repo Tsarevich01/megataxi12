@@ -64,11 +64,11 @@ def add_driver(second_name, first_name, middle_name, series, number, car_id):
 def get_all_cars():
     conn, cur = get_db()
     car_rows = cur.execute(
-        'SELECT id, brand, model, numberplate, vin, sts FROM car ORDER BY DESC '
+        'SELECT id, brand, model, numberplate, vin, sts FROM cars ORDER BY DESC '
     ).fetchall()
     cars = []
     for car_row in car_rows:
-        car = {
+        cars = {
             'id': car_row[0],
             'brand': car_row[1],
             'model': car_row[2],
@@ -83,7 +83,7 @@ def get_all_cars():
 def get_car(car_id):
     conn, cur = get_db()
     car_row = cur.execute(
-        'SELECT brand, model, numberplate, vin, sts FROM car WHERE id = ?',
+        'SELECT brand, model, numberplate, vin, sts FROM cars WHERE id = ?',
         [car_id]
     ).fetchone()
     car = {

@@ -11,7 +11,7 @@ def get_db():
 def get_all_drivers():
     conn, cur = get_db()
     driver_rows = cur.execute(
-        'SELECT id, second_name, first_name, middle_name, series, number, block, block_reason, car_id FROM driver ORDER BY DESC'
+        'SELECT id, second_name, first_name, middle_name, series, number, block, block_reason, car_id FROM driver'
                               ).fetchall()
     drivers = []
     for driver_row in driver_rows:
@@ -51,11 +51,11 @@ def get_driver(driver_id):
 
 
 # Add new driver
-def add_driver(second_name, first_name, middle_name, series, number, car_id):
+def add_driver(second_name, first_name, middle_name, series, number):
     conn, cur = get_db()
     cur.execute(
-        'INSERT INTO driver (second_name, first_name, middle_name, series, number, car_id) VALUES (?, ?, ?, ?, ?, ?)',
-        [second_name, first_name, middle_name, series, number, car_id]
+        'INSERT INTO driver (second_name, first_name, middle_name, series, number) VALUES (?, ?, ?, ?, ?)',
+        [second_name, first_name, middle_name, series, number]
     )
     conn.commit()
 
@@ -64,11 +64,11 @@ def add_driver(second_name, first_name, middle_name, series, number, car_id):
 def get_all_cars():
     conn, cur = get_db()
     car_rows = cur.execute(
-        'SELECT id, brand, model, numberplate, vin, sts FROM cars ORDER BY DESC '
+        'SELECT id, brand, model, numberplate, vin, sts FROM cars'
     ).fetchall()
     cars = []
     for car_row in car_rows:
-        cars = {
+        car = {
             'id': car_row[0],
             'brand': car_row[1],
             'model': car_row[2],
@@ -76,6 +76,7 @@ def get_all_cars():
             'vin': car_row[4],
             'sts': car_row[5]
         }
+        cars.append(car)
     return cars
 
 
@@ -105,9 +106,3 @@ def add_car(brand, model, numberplate, vin, sts):
         [brand, model, numberplate, vin, sts]
     )
     conn.commit()
-
-
-if __name__ == '__main__':
-    from app.database import init_db as idb
-
-    idb.run()

@@ -1,6 +1,5 @@
 from flask import render_template, flash, redirect, url_for, request
-from app import app
-from app.database import db
+from app import app, db
 from app.forms import LoginForm
 
 
@@ -39,21 +38,20 @@ def blacklist():
 
 
 # Водители
-@app.route('/driverst')
-def driverst():
+@app.route('/drivers')
+def drivers():
     # Это зачем??
     driveuser = {'fio': 'ФИО',
                  'series': 'Серия паспорта',
                  'number': 'Номер паспорта'}
     drivers = db.get_all_drivers()
     # Вот сверху
-
+    drivers = db.get_all_drivers()
     return render_template('drivers.html', title='Водители', drivers=drivers, driveuser=driveuser)
 
 
 # Добавить водителя
-@app.route('/driverst')
-@app.route('/add_drive', methods=['POST', 'GET'])
+@app.route('/add_driver', methods=['POST', 'GET'])
 def add_driver():
     if request.method == 'POST':
         db.add_driver(
@@ -61,17 +59,12 @@ def add_driver():
             first_name= request.form['first_name'],
             middle_name= request.form['middle_name'],
             series= request.form['series'],
-            number= request.form['number'],
-            car_id = request.form['car_id'])
-
-
-
-
-
+            number= request.form['number']
+        )
 
         flash('Новый водитель добавлен')
 
-        return redirect(url_for('driverst'))
+        return redirect(url_for('drivers'))
     else:
 
         return render_template('add_driver.html')

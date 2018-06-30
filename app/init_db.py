@@ -9,7 +9,7 @@ CREATE TABLE driver (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   second_name TEXT NOT NULL,
   first_name TEXT NOT NULL,
-  middle_name TEXT NOT NULL,
+  middle_name TEXT NULL,
   series INTEGER UNIQUE NOT NULL,
   number INTEGER UNIQUE NOT NULL,
   block bit NULL DEFAULT 0,

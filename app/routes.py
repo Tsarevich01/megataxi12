@@ -1,18 +1,9 @@
-import datetime
-
 from flask import render_template, flash, redirect, url_for, request
-from app import app, db
+from app import app
+from app.database import db
 from app.forms import LoginForm
 
-drivers = [
-    {
-        'second_name': 'Иванов',
-        'first_name': 'Иван',
-        'middle_name': 'Иванович',
-        'series': '2001',
-        'number': '123456',
-    }
-]
+
 
 
 # Главная
@@ -54,6 +45,7 @@ def driverst():
     driveuser = {'fio': 'ФИО',
                  'series': 'Серия паспорта',
                  'number': 'Номер паспорта'}
+    drivers = db.get_all_drivers()
     # Вот сверху
 
     return render_template('drivers.html', title='Водители', drivers=drivers, driveuser=driveuser)
@@ -95,30 +87,20 @@ def car():
         'numberplate': 'Номерной знак'
     }
     # Вверху
-    cars = [
-        {
-            'brand': 'Lada',
-            'model': 'Kalina',
-            'numberplate': "С777СС73"
-        }
-    ]
+    cars = db.get_all_cars()
     return render_template('cars.html', title='Машины', cars=cars, user_car=user_car)
 
-@app.route('/car')
+
+# Add car
 @app.route('/add_car', methods=['POST', 'GET'])
 def add_car():
     if request.method == 'POST':
         db.add_car(
             brand= request.form['brand'],
             model= request.form['model'],
-            numberlate= request.form['numberlate'],
+            numberplate= request.form['numberplate'],
             vin= request.form['vin'],
             sts= request.form['sts'])
-
-
-
-
-
 
         flash('Новый автомобиль добавлен')
 

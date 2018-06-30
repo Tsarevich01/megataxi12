@@ -1,7 +1,7 @@
-from app import db
+import db
 
 
-scheme_sql = '''
+schema_sql = '''
 DROP TABLE IF EXISTS driver;
 DROP TABLE IF EXISTS car;
 
@@ -30,7 +30,7 @@ CREATE TABLE car (
 
 def run():
     conn, cur = db.get_db()
-    cur.executescript(scheme_sql)
+    cur.executescript(schema_sql)
 
 
 if __name__ == '__main__':

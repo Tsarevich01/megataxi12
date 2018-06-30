@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 
+
 {% block right_content %}
+ <stile>
+        div.form-group{
+        margin-left: 20px;
+
+        }
+
+    </stile>
     <form method="post">
     <div class="form-group">
-      <label for="second_name">Фамилия</label>
+        <label for="second_name">Фамилия</label>
       <input type="text" class="form-control" id="second_name" name="second_name" placeholder="Иванов">
     </div>
     <div class="form-group">

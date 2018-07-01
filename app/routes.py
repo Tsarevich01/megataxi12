@@ -50,7 +50,7 @@ def drivers():
 
 # Добавить водителя
 @app.route('/drivers', methods=['POST', 'GET'])
-@app.route('/add_driver', methods=['POST', 'GET'])
+
 def add_driver():
     if request.method == 'POST':
         db.add_driver(
@@ -85,7 +85,7 @@ def cars():
 
 # Add car
 @app.route('/cars', methods=['POST', 'GET'])
-@app.route('/add_car', methods=['POST', 'GET'])
+
 def add_car():
     if request.method == 'POST':
         db.add_car(

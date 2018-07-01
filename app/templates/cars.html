@@ -6,7 +6,7 @@
     <div>
     {% for car in cars %}
 
-        <a href="/cars/{{ car.car_id }}">
+        <a href="/cars/{{ car.id }}">
             {{ car.brand }} | {{ car.model }} | {{ car.numberplate }}
         </a><br>
     {% endfor %}

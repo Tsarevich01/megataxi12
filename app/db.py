@@ -59,15 +59,12 @@ def add_driver(second_name, first_name, middle_name, series, number):
     )
     conn.commit()
 
+
 # Update driver
-
-def update_driver(driver_id, new_second_name, new_first_name, new_middle_nam, new_series, new_number):
-
+def update_driver(driver_id, new_second_name, new_first_name, new_middle_nam, new_series, new_number, block, block_reason, car_id):
     conn, cur = get_db()
-
-    cur.execute('UPDATE driver SET second_name = ?, first_name =?, middle_name = ?, series = ?, number = ? WHERE id = ?',
-                [new_second_name, new_first_name, new_middle_nam, new_series, new_number, driver_id])
-
+    cur.execute('UPDATE driver SET second_name = ?, first_name =?, middle_name = ?, series = ?, number = ?, block = ?, block_reason = ?, car_id = ? WHERE id = ?',
+                [new_second_name, new_first_name, new_middle_nam, new_series, new_number, block, block_reason, car_id, driver_id])
     conn.commit()
 
 # Get all cars

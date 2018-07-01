@@ -66,7 +66,6 @@ def add_driver():
 
         return redirect(url_for('drivers'))
     else:
-
         return render_template('drivers.html')
 
 @app.route('/drivers/<int:driver_id>', methods=['POST', 'GET'])
@@ -103,7 +102,6 @@ def cars():
 
 # Add car
 @app.route('/cars', methods=['POST', 'GET'])
-
 def add_car():
     if request.method == 'POST':
         db.add_car(

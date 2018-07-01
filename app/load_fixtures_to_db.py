@@ -1,4 +1,4 @@
-import db
+from app import db
 
 fixtures_sql = '''
 INSERT INTO driver (second_name, first_name, middle_name, series, number, block, block_reason, car_id) VALUES ("Иванов", "Иван", "Иванович", 1337, 123456, null, null, 1);

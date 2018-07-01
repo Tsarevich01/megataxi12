@@ -19,12 +19,8 @@
             <input type="text" class="form-control" id="series" name="series" value="{{ driver.series }}">
             <input type="text" class="form-control" id="number" name="number" value="{{ driver.number }}">
         </div>
-
+        <input type="button" value="Click" onmousedown="viewDiv()">
+        <div id="div1">Блок</div>
         <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>
-    <button type="submit" class="btn btn-primary" id="block" name="block" value="{{ driver.block }}">Добавать в ЧС</button>
-        <div id="div1">
-            <input type="text" class="form-control" id="block_reason" name="block_reason" value="{{ driver.block_reason }}">
-
-        </div>
 {% endblock %}

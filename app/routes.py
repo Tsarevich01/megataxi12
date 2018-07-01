@@ -49,8 +49,9 @@ def drivers():
 
 
 # Добавить водителя
+@app.route('/', methods=['POST', 'GET'])
+@app.route('/index', methods=['POST', 'GET'])
 @app.route('/drivers', methods=['POST', 'GET'])
-
 def add_driver():
     if request.method == 'POST':
         db.add_driver(
@@ -66,7 +67,7 @@ def add_driver():
         return redirect(url_for('drivers'))
     else:
 
-        return render_template('drivers.html')
+        return render_template('add_driver.html')
 
 
 # Сптсок авто
@@ -85,7 +86,6 @@ def cars():
 
 # Add car
 @app.route('/cars', methods=['POST', 'GET'])
-
 def add_car():
     if request.method == 'POST':
         db.add_car(
@@ -100,4 +100,4 @@ def add_car():
         return redirect(url_for('cars'))
     else:
 
-        return render_template('cars.html')
+        return render_template('add_car.html')

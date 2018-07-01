@@ -5,6 +5,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 
     {% if title %}
         <title>{{ title }} - MegaTaxi</title>
@@ -17,8 +19,8 @@
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.1/lux/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="navbar-top.css" rel="stylesheet">
-  <link href="style.css" rel="stylesheet">
+    <link href="../static/navbar-top.css" rel="stylesheet">
+  <link href="../static/style.css" rel="stylesheet">
   </head>
 
   <body>
@@ -60,16 +62,21 @@
         </ul>
         {% endif %}
         {% endwith %}
-    <main role="main" class="main-content">
-        {% block right_content %}
-        {% endblock %}
-    </main>
+    <div class="container">
+        <div class="row">
+            <div class="col=md=4">
+                {% block content %}{% endblock %}
+            </div>
+            <div class="col=md=8">
+                {% block right_content %}{% endblock %}
+            </div>
 
-    <main role="main" class="container">
+        </div>
 
-          {% block content %}{% endblock %}
+    </div>
 
-    </main>
+
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

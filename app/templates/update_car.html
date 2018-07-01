@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+<h1>Обновить данные о автомобиле</h1>
+
+{% block right_content %}
+<form method="post">
+    <div class="form-group">
+        <input type="hidden" id="car_id" name="car_id" value="{{ car.id }}">
+        <input type="text" class="form-control" id="brand" name="brand" value="{{ car.brand }}">
+        <input type="text" class="form-control" id="model" name="model" value="{{ car.model }}">
+        <input type="text" class="form-control" id="numberplate" name="numberplate" value="{{ car.numberplate }}">
+        <input type="text" class="form-control" id="vin" name="vin" value="{{ car.vin }}">
+        <input type="text" class="form-control" id="sts" name="sts" value="{{ car.sts }}">
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}

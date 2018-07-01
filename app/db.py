@@ -113,3 +113,12 @@ def add_car(brand, model, numberplate, vin, sts):
         [brand, model, numberplate, vin, sts]
     )
     conn.commit()
+
+
+# Update car
+def update_car(car_id, new_brand, new_model, new_numberplate, new_vin, new_sts):
+    conn, cur = get_db()
+    cur.execute('UPDATE cars SET brand = ?, model =?, numberplate = ?, vin = ?, sts = ? WHERE id = ?',
+                [new_brand, new_model, new_numberplate, new_vin, new_sts, car_id])
+
+    conn.commit()

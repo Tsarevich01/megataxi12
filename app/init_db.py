@@ -1,4 +1,4 @@
-import db
+from app import db
 
 schema_sql = '''
 DROP TABLE IF EXISTS driver;

@@ -5,7 +5,10 @@
     <h3>{{ user_car.brand }}    |    {{ user_car.model }}  |  {{ user_car.numberplate }}</h3>
     <div>
     {% for car in cars %}
-        <p>{{ car.brand }} | {{ car.model }} | {{ car.numberplate }}</p>
+
+        <a href="/cars/{{ car.car_id }}">
+            {{ car.brand }} | {{ car.model }} | {{ car.numberplate }}
+        </a><br>
     {% endfor %}
     </div>
 {% endblock %}

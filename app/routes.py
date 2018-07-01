@@ -117,3 +117,24 @@ def add_car():
     else:
 
         return render_template('cars.html')
+
+
+
+# Update car
+
+@app.route('/cars/<int:car_id>', methods=['POST', 'GET'])
+def update_car(car_id):
+    car = db.get_car(car_id)
+    if request.method == 'POST':
+        car_id = request.form['car_id']
+        new_brand = request.form['brand']
+        new_model = request.form['model']
+        new_numberplate = request.form['numberplate']
+        new_vin = request.form['vin']
+        new_sts = request.form['sts']
+        db.update_car(car_id, new_brand, new_model, new_numberplate, new_vin, new_sts)
+
+        flash('Данные о автомобиле обнавлены')
+
+        return redirect(url_for('cars'))
+    return render_template('update_car.html', car=car)

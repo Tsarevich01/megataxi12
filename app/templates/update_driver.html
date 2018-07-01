@@ -2,16 +2,25 @@
 
 <h1>Обновить данные о водителе</h1>
 
+<head>
+        <link href="static/style.css" rel="stylesheet">
+        <script src="static/jsstyle.js"></script>
+    </head>
+
 {% block right_content %}
-<form method="post">
-    <div class="form-group">
-        <input type="hidden" id="driver_id" name="driver_id" value="{{ driver.id }}">
-        <input type="text" class="form-control" id="second_name" name="second_name" value="{{ driver.second_name }}">
-        <input type="text" class="form-control" id="first_name" name="first_name" value="{{ driver.first_name }}">
-        <input type="text" class="form-control" id="middle_name" name="middle_name" value="{{ driver.middle_name }}">
-        <input type="text" class="form-control" id="series" name="series" value="{{ driver.series }}">
-        <input type="text" class="form-control" id="number" name="number" value="{{ driver.number }}">
-    </div>
-    <button type="submit" class="btn btn-primary">Сохранить</button>
-</form>
+
+
+    <form method="post">
+        <div class="form-group">
+            <input type="hidden" id="driver_id" name="driver_id" value="{{ driver.id }}">
+            <input type="text" class="form-control" id="second_name" name="second_name" value="{{ driver.second_name }}">
+            <input type="text" class="form-control" id="first_name" name="first_name" value="{{ driver.first_name }}">
+            <input type="text" class="form-control" id="middle_name" name="middle_name" value="{{ driver.middle_name }}">
+            <input type="text" class="form-control" id="series" name="series" value="{{ driver.series }}">
+            <input type="text" class="form-control" id="number" name="number" value="{{ driver.number }}">
+        </div>
+        <input type="button" value="Click" onmousedown="viewDiv()">
+        <div id="div1">Блок</div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
 {% endblock %}

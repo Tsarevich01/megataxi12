@@ -67,6 +67,7 @@ def update_driver(driver_id, new_second_name, new_first_name, new_middle_nam, ne
                 [new_second_name, new_first_name, new_middle_nam, new_series, new_number, block, block_reason, car_id, driver_id])
     conn.commit()
 
+
 # Get all cars
 def get_all_cars():
     conn, cur = get_db()

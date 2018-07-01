@@ -42,7 +42,6 @@ def drivers():
     driveuser = {'fio': 'ФИО',
                  'series': 'Серия паспорта',
                  'number': 'Номер паспорта'}
-
     # Вот сверху
     drivers = db.get_all_drivers()
     return render_template('drivers.html', title='Водители', drivers=drivers, driveuser=driveuser)
@@ -67,6 +66,7 @@ def add_driver():
         return redirect(url_for('drivers'))
     else:
         return render_template('drivers.html')
+
 
 @app.route('/drivers/<int:driver_id>', methods=['POST', 'GET'])
 def update_driver(driver_id):

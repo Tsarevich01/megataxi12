@@ -68,9 +68,9 @@ def add_driver():
         return render_template('add_driver.html')
 
 
-# Авто
-@app.route('/car')
-def car():
+# Сптсок авто
+@app.route('/cars')
+def cars():
     # И это почто?
     user_car = {
         'brand': 'Марка',
@@ -95,7 +95,7 @@ def add_car():
 
         flash('Новый автомобиль добавлен')
 
-        return redirect(url_for('car'))
+        return redirect(url_for('cars'))
     else:
 
         return render_template('add_car.html')

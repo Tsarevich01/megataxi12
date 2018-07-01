@@ -69,6 +69,23 @@ def add_driver():
 
         return render_template('drivers.html')
 
+@app.route('/drivers/<int:driver_id>', methods=['POST', 'GET'])
+def update_driver(driver_id):
+    driver = db.get_driver(driver_id)
+    if request.method == 'POST':
+        driver_id = request.form['driver_id']
+        new_second_name = request.form['second_name']
+        new_first_name = request.form['first_name']
+        new_middle_name = request.form['middle_name']
+        new_series = request.form['series']
+        new_number = request.form['number']
+        db.update_driver(driver_id, new_second_name, new_first_name, new_middle_name, new_series, new_number)
+
+        flash('Данные о водителе обнавлены')
+
+        return redirect(url_for('drivers'))
+    return render_template('update_driver.html', driver=driver)
+
 
 # Сптсок авто
 @app.route('/cars')

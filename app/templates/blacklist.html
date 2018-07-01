@@ -1,6 +1,11 @@
-<!{% extends "base.html" %}
-
+{% extends "base.html" %}
+<h1>Черный список водителей</h1>
 {% block content %}
-    <h1>Черный список водителей</h1>
+    <h3>{{ driveuser.fio }}    |    {{ driveuser.series }}  |  {{ driveuser.number }}</h3>
+    <div>
+        <p>
+            {{ block_driver.second_name }} {{ block_driver.first_name }} {{ block_driver.middle_name }} | {{ block_driver.series }} | {{ block_driver.number }} | {{ block_driver.block_reason }}
+        </p>
+    </div>
 
 {% endblock %}

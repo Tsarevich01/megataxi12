@@ -3,6 +3,10 @@ from app import app, db
 from app.forms import LoginForm
 
 
+driveuser = {'fio': 'ФИО',
+                 'series': 'Серия паспорта',
+                 'number': 'Номер паспорта'}
+
 # Главная
 @app.route('/')
 @app.route('/index')
@@ -32,16 +36,20 @@ def acts():
 # ЧС
 @app.route('/blacklist')
 def blacklist():
-    return render_template('blacklist.html', title='Чёрный список')
+    drivers = db.get_all_drivers()
+    block_driver =[]
+    for driver in drivers:
+        if driver.block == 1:
+            block_driver.append(db.get_driver(driver.driver_id))
+
+    return render_template('blacklist.html', title='Чёрный список', driveuser=driveuser, block_driver=block_driver)
 
 
 # Водители
 @app.route('/drivers')
 def drivers():
     # Это зачем??
-    driveuser = {'fio': 'ФИО',
-                 'series': 'Серия паспорта',
-                 'number': 'Номер паспорта'}
+
     # Вот сверху
     drivers = db.get_all_drivers()
     return render_template('drivers.html', title='Водители', drivers=drivers, driveuser=driveuser)
@@ -78,11 +86,16 @@ def update_driver(driver_id):
         new_middle_name = request.form['middle_name']
         new_series = request.form['series']
         new_number = request.form['number']
-        db.update_driver(driver_id, new_second_name, new_first_name, new_middle_name, new_series, new_number)
+        new_block = request.form['block']
+        new_block_reason = request.form['block_reason']
+        db.update_driver(driver_id, new_second_name, new_first_name, new_middle_name, new_series, new_number, new_block, new_block_reason)
 
         flash('Данные о водителе обнавлены')
+        if driver.block == 1:
+            return render_template('blacklist.html', driver=driver)
+        else:
+            return redirect(url_for('drivers'))
 
-        return redirect(url_for('drivers'))
     return render_template('update_driver.html', driver=driver)
 
 

@@ -102,7 +102,7 @@ def get_car(car_id):
 def add_car(brand, model, numberplate, vin, sts):
     conn, cur = get_db()
     cur.execute(
-        'INSERT INTO car (brand, model, numberplate, vin, sts) VALUES (?, ?, ?, ?, ?)',
+        'INSERT INTO cars (brand, model, numberplate, vin, sts) VALUES (?, ?, ?, ?, ?)',
         [brand, model, numberplate, vin, sts]
     )
     conn.commit()

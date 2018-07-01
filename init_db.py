@@ -1,4 +1,5 @@
 import db
+
 schema_sql = '''
 DROP TABLE IF EXISTS driver;
 DROP TABLE IF EXISTS cars;
@@ -20,8 +21,8 @@ CREATE TABLE cars (
   brand TEXT NOT NULL,
   model TEXT NOT NULL,
   numberplate TEXT NOT NULL,
-  vin INTEGER UNIQUE NOT NULL,
-  sts INTEGER UNIQUE NOT NULL
+  vin TEXT NOT NULL,
+  sts TEXT NOT NULL
 );
 '''
 # Сканов нема

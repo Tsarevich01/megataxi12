@@ -1,5 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
-from app import app, db
+from app import app
+import db
 from app.forms import LoginForm
 
 
@@ -44,7 +45,7 @@ def drivers():
     driveuser = {'fio': 'ФИО',
                  'series': 'Серия паспорта',
                  'number': 'Номер паспорта'}
-    drivers = db.get_all_drivers()
+
     # Вот сверху
     drivers = db.get_all_drivers()
     return render_template('drivers.html', title='Водители', drivers=drivers, driveuser=driveuser)

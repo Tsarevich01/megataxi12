@@ -50,7 +50,8 @@ def drivers():
 
 # Добавить водителя
 @app.route('/drivers', methods=['POST', 'GET'])
-
+@app.route('/', methods=['POST', 'GET'])
+@app.route('/index', methods=['POST', 'GET'])
 def add_driver():
     if request.method == 'POST':
         db.add_driver(

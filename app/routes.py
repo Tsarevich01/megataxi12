@@ -104,8 +104,7 @@ def add_car():
         numberplate = request.form['numberplate']
         vin = request.form['vin']
         sts = request.form['sts']
-        if len(numberplate) > 9:
-            flash('Длина номера не может превышать 9 знаков!')
+        if not check_car_info(brand, model, numberplate, vin, sts):
             return redirect(url_for('cars'))
         db.add_car(
             brand=brand,
@@ -131,9 +130,19 @@ def update_car(car_id):
         new_numberplate = request.form['numberplate']
         new_vin = request.form['vin']
         new_sts = request.form['sts']
+        if not check_car_info(new_brand, new_model, new_numberplate, new_vin, new_sts):
+            return redirect(url_for('cars'))
         db.update_car(car_id, new_brand, new_model, new_numberplate, new_vin, new_sts)
 
         flash('Данные о автомобиле обнавлены')
 
         return redirect(url_for('cars'))
     return render_template('update_car.html', car=car)
+
+
+# Проверка инфы об авто
+def check_car_info(brand, model, numberplate, vin, sts):
+    if len(numberplate) > 9:
+        flash('Длина номера не может превышать 9 знаков!')
+        return False
+    return True

@@ -64,6 +64,7 @@ def add_driver():
         return render_template('drivers.html')
 
 
+# Редактирование водителя
 @app.route('/drivers/<int:driver_id>', methods=['POST', 'GET'])
 def update_driver(driver_id):
     driver = db.get_driver(driver_id)
@@ -98,15 +99,21 @@ def cars():
 @app.route('/cars', methods=['POST', 'GET'])
 def add_car():
     if request.method == 'POST':
+        brand = request.form['brand']
+        model = request.form['model']
+        numberplate = request.form['numberplate']
+        vin = request.form['vin']
+        sts = request.form['sts']
+        if len(numberplate) > 9:
+            flash('Длина номера не может превышать 9 знаков!')
+            return redirect(url_for('cars'))
         db.add_car(
-            brand= request.form['brand'],
-            model= request.form['model'],
-            numberplate= request.form['numberplate'],
-            vin= request.form['vin'],
-            sts= request.form['sts'])
-
+            brand=brand,
+            model=model,
+            numberplate=numberplate,
+            vin=vin,
+            sts=sts)
         flash('Новый автомобиль добавлен')
-
         return redirect(url_for('cars'))
     else:
 

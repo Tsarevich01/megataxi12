@@ -3,10 +3,6 @@ from app import app, db
 from app.forms import LoginForm
 
 
-driveuser = {'fio': 'ФИО',
-                 'series': 'Серия паспорта',
-                 'number': 'Номер паспорта'}
-
 # Главная
 @app.route('/')
 @app.route('/index')
@@ -37,14 +33,14 @@ def acts():
 @app.route('/blacklist')
 def blacklist():
     blocked_drivers = db.get_blocked_drivers()
-    return render_template('blacklist.html', title='Чёрный список', driveuser=driveuser, blocked_drivers=blocked_drivers)
+    return render_template('blacklist.html', title='Чёрный список', blocked_drivers=blocked_drivers)
 
 
 # Водители
 @app.route('/drivers')
 def drivers():
     drivers = db.get_all_drivers()
-    return render_template('drivers.html', title='Водители', drivers=drivers, driveuser=driveuser)
+    return render_template('drivers.html', title='Водители', drivers=drivers)
 
 
 # Добавить водителя
@@ -91,18 +87,11 @@ def update_driver(driver_id):
     return render_template('update_driver.html', driver=driver)
 
 
-# Сптсок авто
+# Список авто
 @app.route('/cars')
 def cars():
-    # И это почто?
-    user_car = {
-        'brand': 'Марка',
-        'model': 'Модель',
-        'numberplate': 'Номерной знак'
-    }
-    # Вверху
     cars = db.get_all_cars()
-    return render_template('cars.html', title='Машины', cars=cars, user_car=user_car)
+    return render_template('cars.html', title='Машины', cars=cars)
 
 
 # Add car
@@ -124,9 +113,7 @@ def add_car():
         return render_template('cars.html')
 
 
-
 # Update car
-
 @app.route('/cars/<int:car_id>', methods=['POST', 'GET'])
 def update_car(car_id):
     car = db.get_car(car_id)

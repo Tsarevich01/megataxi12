@@ -36,21 +36,13 @@ def acts():
 # ЧС
 @app.route('/blacklist')
 def blacklist():
-    drivers = db.get_all_drivers()
-    block_driver =[]
-    for driver in drivers:
-        if driver.block == 1:
-            block_driver.append(db.get_driver(driver.driver_id))
-
-    return render_template('blacklist.html', title='Чёрный список', driveuser=driveuser, block_driver=block_driver)
+    blocked_drivers = db.get_blocked_drivers()
+    return render_template('blacklist.html', title='Чёрный список', driveuser=driveuser, blocked_drivers=blocked_drivers)
 
 
 # Водители
 @app.route('/drivers')
 def drivers():
-    # Это зачем??
-
-    # Вот сверху
     drivers = db.get_all_drivers()
     return render_template('drivers.html', title='Водители', drivers=drivers, driveuser=driveuser)
 

@@ -50,6 +50,28 @@ def get_driver(driver_id):
     return driver
 
 
+# Get blocked drivers
+def get_blocked_drivers():
+    conn, cur = get_db()
+    driver_rows = cur.execute(
+        'SELECT id, second_name, first_name, middle_name, series, number, block_reason, car_id FROM driver WHERE block = 0'
+    ).fetchall()
+    drivers = []
+    for driver_row in driver_rows:
+        driver = {
+            "id": driver_row[0],
+            "second_name": driver_row[1],
+            "first_name": driver_row[2],
+            "middle_name": driver_row[3],
+            "series": driver_row[4],
+            "number": driver_row[5],
+            "block_reason": driver_row[6],
+            "car_id": driver_row[7]
+        }
+        drivers.append(driver)
+    return drivers
+
+
 # Add new driver
 def add_driver(second_name, first_name, middle_name, series, number):
     conn, cur = get_db()

@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 <h1>Черный список водителей</h1>
 {% block content %}
-    <h3>{{ driveuser.fio }}    |    {{ driveuser.series }}  |  {{ driveuser.number }}</h3>
+    <h3>Фамилия    |    Имя    |    Отчество    |    Серия    |    Номер    |    Причина нахождения в ЧС</h3>
     <div>
+    {% if blocked_drivers != None%}
         <p>
-            {{ block_driver.second_name }} {{ block_driver.first_name }} {{ block_driver.middle_name }} | {{ block_driver.series }} | {{ block_driver.number }} | {{ block_driver.block_reason }}
+            {{ blocked_drivers.second_name }}    |    {{ blocked_drivers.first_name }}    |    {{ blocked_drivers.middle_name }}    |    {{ blocked_drivers.series }}    |    {{ blocked_drivers.number }}    |    {{ blocked_drivers.block_reason }}
+
         </p>
+    {% else %}
+    <p>Чёрный список пуст</p>
+    {% endif %}
     </div>
 
 {% endblock %}

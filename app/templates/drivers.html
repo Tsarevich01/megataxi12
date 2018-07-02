@@ -4,15 +4,19 @@
     <h1>Список водителей</h1>
     <h3>Фамилия    |    Имя    |    Отчество    |    Серия    |    Номер</h3>
     <div>
-    {% for driver in drivers %}
-        <p>
+    {% if drivers %}
+        {% for driver in drivers %}
+            <p>
 
-            <a href="/drivers/{{ driver.id }}">
-                {{ driver.second_name }} {{ driver.first_name }} {{ driver.middle_name }} | {{ driver.series }} | {{ driver.number }}
-            </a>
+                <a href="/drivers/{{ driver.id }}">
+                    {{ driver.second_name }}         {{ driver.first_name }}        {{ driver.middle_name }}        {{ driver.series }}         {{ driver.number }}
+                </a>
 
-        </p>
-    {% endfor %}
+            </p>
+        {% endfor %}
+    {% else %}
+        <p>Cписок водителей пуст</p>
+    {% endif %}
     </div>
 {% endblock %}
 {% block right_content %}

@@ -1,6 +1,21 @@
-<!{% extends "base.html" %}
-
+{% extends "base.html" %}
+<h1>Черный список водителей</h1>
 {% block content %}
-    <h1>Черный список водителей</h1>
+    <h3>Фамилия    |    Имя    |    Отчество    |    Серия    |    Номер    |    Причина нахождения в ЧС</h3>
+    <div>
+    {% if blocked_drivers %}
+        {% for blocked_driver in blocked_drivers %}
+        <p>
+
+            <a href="/driver/{{ blocked_driver.id }}">
+                {{ blocked_driver.second_name }}         {{ blocked_driver.first_name }}         {{ blocked_driver.middle_name }}         {{ blocked_driver.series }}         {{ blocked_driver.number }}         {{ blocked_driver.block_reason }}
+            </a>
+
+        </p>
+        {% endfor %}
+    {% else %}
+        <p>Чёрный список пуст</p>
+    {% endif %}
+    </div>
 
 {% endblock %}

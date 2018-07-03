@@ -1,4 +1,4 @@
-from app import db
+import db
 
 schema_sql = '''
 DROP TABLE IF EXISTS driver;
@@ -11,7 +11,7 @@ CREATE TABLE driver (
   middle_name TEXT NULL,
   series INTEGER UNIQUE NOT NULL,
   number INTEGER UNIQUE NOT NULL,
-  block bit NULL DEFAULT 0,
+  block bit NOT NULL DEFAULT 0,
   block_reason TEXT NULL,
   car_id INTEGER NULL
 ); 

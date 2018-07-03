@@ -2,14 +2,21 @@
 
 {% block content %}
     <h1>Список автомобилей</h1>
-    <h3>{{ user_car.brand }}    |    {{ user_car.model }}  |  {{ user_car.numberplate }}</h3>
+    <h3>Марка    |    Модель  |  Номер</h3>
     <div>
-    {% for car in cars %}
+    {% if cars %}
+        {% for car in cars %}
+            <p>
 
-        <a href="/cars/{{ car.id }}">
-            {{ car.brand }} | {{ car.model }} | {{ car.numberplate }}
-        </a><br>
-    {% endfor %}
+                <a href="/cars/{{ car.id }}">
+                    {{ car.brand }}      {{ car.model }}        {{ car.numberplate }}
+                </a>
+
+            </p>
+        {% endfor %}
+    {% else %}
+        <p>Список авто пуст</p>
+    {% endif %}
     </div>
 {% endblock %}
 {% block right_content %}

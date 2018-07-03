@@ -20,9 +20,9 @@ CREATE TABLE cars (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   brand TEXT NOT NULL,
   model TEXT NOT NULL,
-  numberplate TEXT NOT NULL,
-  vin TEXT NOT NULL,
-  sts TEXT NOT NULL
+  numberplate TEXT UNIQUE NOT NULL,
+  vin TEXT UNIQUE NOT NULL,
+  sts TEXT UNIQUE NOT NULL
 );
 '''
 # Сканов нема

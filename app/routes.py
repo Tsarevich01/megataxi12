@@ -1,6 +1,8 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
 from app.forms import LoginForm
+import re
+import sqlite3
 
 
 # Главная
@@ -49,16 +51,24 @@ def drivers():
 @app.route('/index', methods=['POST', 'GET'])
 def add_driver():
     if request.method == 'POST':
-        db.add_driver(
-            second_name= request.form['second_name'],
-            first_name= request.form['first_name'],
-            middle_name= request.form['middle_name'],
-            series= request.form['series'],
-            number= request.form['number']
-        )
-
-        flash('Новый водитель добавлен')
-
+        second_name = request.form['second_name'],
+        first_name = request.form['first_name'],
+        middle_name = request.form['middle_name'],
+        series = request.form['series'],
+        number = request.form['number']
+        if check_driver_info_errors(second_name, first_name, middle_name, series, number):
+            return render_template('drivers.html')
+        try:
+            db.add_driver(
+                second_name= request.form['second_name'],
+                first_name= request.form['first_name'],
+                middle_name= request.form['middle_name'],
+                series= request.form['series'],
+                number= request.form['number']
+            )
+            flash('Новый водитель добавлен')
+        except sqlite3.IntegrityError:
+            flash('Данные паспорта не могут совпадать с данными паспорта имеющихся водителей!')
         return redirect(url_for('drivers'))
     else:
         return render_template('drivers.html')
@@ -77,9 +87,13 @@ def update_driver(driver_id):
         new_number = request.form['number']
         new_block = request.form['block']
         new_block_reason = request.form['block_reason']
-        db.update_driver(driver_id, new_second_name, new_first_name, new_middle_name, new_series, new_number, new_block, new_block_reason)
-
-        flash('Данные о водителе обнавлены')
+        if check_driver_info_errors(new_second_name, new_first_name, new_middle_name, new_series, new_number):
+            return render_template('update_driver.html', driver=driver)
+        try:
+            db.update_driver(driver_id, new_second_name, new_first_name, new_middle_name, new_series, new_number, new_block, new_block_reason)
+            flash('Данные о водителе обнавлены')
+        except sqlite3.IntegrityError:
+            flash('Данные паспорта не могут совпадать с данными паспорта имеющихся водителей!')
         if driver.block == 1:
             return render_template('blacklist.html', driver=driver)
         else:
@@ -104,18 +118,20 @@ def add_car():
         numberplate = request.form['numberplate']
         vin = request.form['vin']
         sts = request.form['sts']
-        if not check_car_info(brand, model, numberplate, vin, sts):
-            return redirect(url_for('cars'))
-        db.add_car(
-            brand=brand,
-            model=model,
-            numberplate=numberplate,
-            vin=vin,
-            sts=sts)
-        flash('Новый автомобиль добавлен')
+        if check_car_info_errors(brand, model, numberplate, vin, sts):
+            return render_template('cars.html')
+        try:
+            db.add_car(
+                brand=brand,
+                model=model,
+                numberplate=numberplate,
+                vin=vin,
+                sts=sts)
+            flash('Новый автомобиль добавлен')
+        except sqlite3.IntegrityError:
+            flash('Данные номера авто, VIN и СТС не могут совпадать с существующими!')
         return redirect(url_for('cars'))
     else:
-
         return render_template('cars.html')
 
 
@@ -130,19 +146,68 @@ def update_car(car_id):
         new_numberplate = request.form['numberplate']
         new_vin = request.form['vin']
         new_sts = request.form['sts']
-        if not check_car_info(new_brand, new_model, new_numberplate, new_vin, new_sts):
-            return redirect(url_for('cars'))
-        db.update_car(car_id, new_brand, new_model, new_numberplate, new_vin, new_sts)
-
-        flash('Данные о автомобиле обнавлены')
-
+        if check_car_info_errors(new_brand, new_model, new_numberplate, new_vin, new_sts):
+            return render_template('update_car.html', car=car)
+        try:
+            db.update_car(car_id, new_brand, new_model, new_numberplate, new_vin, new_sts)
+            flash('Данные о автомобиле обнавлены')
+        except sqlite3.IntegrityError:
+            flash('Данные номера авто, VIN и СТС не могут совпадать с существующими!')
         return redirect(url_for('cars'))
     return render_template('update_car.html', car=car)
 
 
+# Тут у нас валидаторы
+# Проверка инфы о водителе
+def check_driver_info_errors(second_name, first_name, middle_name, series, number):
+    flash_list = []
+    if not re.fullmatch('[А-ЯЁ][а-яё]{,14}', second_name):
+        flash_list.append(
+            'Фамилия должна состоять из кириллических букв, начинаться с заглавной и в длине не превышать 15 символов!'
+        )
+    if not re.fullmatch('[А-ЯЁ][а-яё]{,14}', first_name):
+        flash_list.append(
+            'Имя должно состоять из кириллических букв, начинаться с заглавной и в длине не превышать 15 символов!'
+        )
+    if not re.fullmatch('[А-ЯЁ][а-яё]{,14}', middle_name):
+        flash_list.append(
+            'Отчество должно состоять из кириллических букв, начинаться с заглавной и в длине не превышать 15 символов!'
+        )
+    if not re.fullmatch('\d{4}', str(series)):
+        flash_list.append('Серия состоит строго из 4-х цифр!')
+    if not re.fullmatch('\d{6}', str(number)):
+        flash_list.append('Номер состоит строго из 6 цифр!')
+    if flash_list:
+        for message in flash_list:
+            flash(message)
+        return True
+    return False
+
+
 # Проверка инфы об авто
-def check_car_info(brand, model, numberplate, vin, sts):
-    if len(numberplate) > 9:
-        flash('Длина номера не может превышать 9 знаков!')
-        return False
-    return True
+def check_car_info_errors(brand, model, numberplate, vin, sts):
+    # form = {
+    #     "brand": brand,
+    #     "model": model,
+    #     "numberplate": numberplate,
+    #     "vin": vin,
+    #     "sts": sts
+    # }
+    flash_list = []
+    print(type(brand))
+    if not re.fullmatch('[A-Z][a-z]{,14}', brand):
+        flash_list.append(
+            'Название марки авто пишется латинскими буквами, начинается с заглавной буквы и не может превышать 15 симовлов в длине!')
+    if not re.fullmatch('[A-Z][a-zA-Z]{,14}', model):
+        flash_list.append(
+            'Название модели авто пишется латинскими буквами, начинается с заглавной буквы и не может превышать 15 симовлов в длине!')
+    if not re.fullmatch('[А-ЯЁ]\d{3}[А-ЯЁ]{2}\d{2,3}', numberplate):
+        flash_list.append('Неверно введён номер. Примеры правилно введённого номера: А777МД73, В666АД199')
+    if not re.fullmatch('[A-Z1-9]{17}', vin):
+        flash_list.append('Неправильно введён VIN. Он состоит из 17 латинских симовлов или арабских цифр!')
+    # Тут должна быть валидация по СТС
+    if flash_list:
+        for message in flash_list:
+            flash(message)
+        return True
+    return False

@@ -160,9 +160,10 @@ def update_car(car_id):
 # Тут у нас валидаторы
 # Проверка инфы о водителе
 def check_driver_info_errors(second_name, first_name, middle_name, series, number):
-    second_name = str(second_name)
-    second_name = str(first_name)
-    second_name = str(middle_name)
+    second_name = second_name[0]
+    first_name = first_name[0]
+    middle_name = middle_name[0]
+    series = series[0]
     flash_list = []
     if not re.fullmatch('[А-ЯЁ][а-яё]{,14}', second_name):
         flash_list.append(
@@ -215,3 +216,4 @@ def check_car_info_errors(brand, model, numberplate, vin, sts):
             flash(message)
         return True
     return False
+# clone, pull, checkout

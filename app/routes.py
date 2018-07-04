@@ -32,6 +32,13 @@ def acts():
     return render_template('acts.html', title='Акты')
 
 
+@app.route('/acts/<int:driver_id>', methods=['POST', 'GET'])
+def act(driver_id):
+    act = db.get_driver(driver_id)
+    # I = act.first_name
+    #O = akt.middle_name
+    return render_template('acts_print.html', title='Акт', act=act, created=datetime.datetime(2018, 6, 13, 13, 00, 00))
+
 
 @app.route('/acts/<int:driver_id>', methods=['POST', 'GET'])
 def act(driver_id):

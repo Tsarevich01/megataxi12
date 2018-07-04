@@ -57,7 +57,7 @@ def add_driver():
         series = str(request.form['series']),
         number = str(request.form['number'])
         if check_driver_info_errors(second_name, first_name, middle_name, series, number):
-            return render_template('drivers.html')
+            return redirect(url_for('drivers'))
         try:
             db.add_driver(
                 second_name= request.form['second_name'],
@@ -88,7 +88,7 @@ def update_driver(driver_id):
         new_block = request.form['block']
         new_block_reason = request.form['block_reason']
         if check_driver_info_errors(new_second_name, new_first_name, new_middle_name, new_series, new_number):
-            return render_template('update_driver.html', driver=driver)
+            return redirect(url_for('drivers'))
         try:
             db.update_driver(driver_id, new_second_name, new_first_name, new_middle_name, new_series, new_number, new_block, new_block_reason)
             flash('Данные о водителе обнавлены')
@@ -119,7 +119,7 @@ def add_car():
         vin = request.form['vin']
         sts = request.form['sts']
         if check_car_info_errors(brand, model, numberplate, vin, sts):
-            return render_template('cars.html')
+            return redirect(url_for('cars'))
         try:
             db.add_car(
                 brand=brand,
@@ -147,7 +147,7 @@ def update_car(car_id):
         new_vin = request.form['vin']
         new_sts = request.form['sts']
         if check_car_info_errors(new_brand, new_model, new_numberplate, new_vin, new_sts):
-            return render_template('update_car.html', car=car)
+            return redirect(url_for('cars'))
         try:
             db.update_car(car_id, new_brand, new_model, new_numberplate, new_vin, new_sts)
             flash('Данные о автомобиле обнавлены')

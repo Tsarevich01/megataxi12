@@ -40,14 +40,6 @@ def act(driver_id):
     return render_template('acts_print.html', title='Акт', act=act, created=datetime.datetime(2018, 6, 13, 13, 00, 00))
 
 
-@app.route('/acts/<int:driver_id>', methods=['POST', 'GET'])
-def act(driver_id):
-    akt = db.get_driver(driver_id)
-    #I = akt.first_name
-    #O = akt.middle_name
-    return render_template('acts_print.html', title='Акт', akt=akt, created=datetime.datetime(2018, 6, 13, 13, 00, 00))
-
-
 # ЧС
 @app.route('/blacklist')
 def blacklist():

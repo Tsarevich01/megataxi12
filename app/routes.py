@@ -3,7 +3,7 @@ from app import app, db
 from app.forms import LoginForm
 import re
 import sqlite3
-
+import datetime
 
 # Главная
 @app.route('/')
@@ -29,6 +29,15 @@ def login():
 @app.route('/acts')
 def acts():
     return render_template('acts.html', title='Акты')
+
+
+
+@app.route('/acts/<int:driver_id>', methods=['POST', 'GET'])
+def act(driver_id):
+    akt = db.get_driver(driver_id)
+    #I = akt.first_name
+    #O = akt.middle_name
+    return render_template('acts_print.html', title='Акт', akt=akt, created=datetime.datetime(2018, 6, 13, 13, 00, 00))
 
 
 # ЧС

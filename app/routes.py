@@ -4,6 +4,7 @@ from app.forms import LoginForm
 import re
 import sqlite3
 import datetime
+# -*- coding: utf-8 -*-
 
 # Главная
 @app.route('/')
@@ -31,13 +32,10 @@ def acts():
     return render_template('acts.html', title='Акты')
 
 
-
 @app.route('/acts/<int:driver_id>', methods=['POST', 'GET'])
 def act(driver_id):
-    akt = db.get_driver(driver_id)
-
-
-    return render_template('acts_print.html', title='Акт', akt=akt, created=datetime.datetime(2018, 6, 13, 13, 00, 00))
+    act = db.get_driver(driver_id)
+    return render_template('acts_print.html', title='Акт', act=act, created=datetime.datetime(2018, 6, 13, 13, 00, 00))
 
 
 # ЧС
@@ -50,7 +48,7 @@ def blacklist():
 # Водители
 @app.route('/drivers')
 def drivers():
-    drivers = db.get_all_drivers()
+    drivers=db.get_all_drivers()
     return render_template('drivers.html', title='Водители', drivers=drivers)
 
 
@@ -60,20 +58,24 @@ def drivers():
 @app.route('/index', methods=['POST', 'GET'])
 def add_driver():
     if request.method == 'POST':
-        second_name = str(request.form['second_name']),
-        first_name = str(request.form['first_name']),
-        middle_name = str(request.form['middle_name']),
-        series = str(request.form['series']),
-        number = str(request.form['number'])
+        second_name = request.form['second_name'],
+        first_name = request.form['first_name'],
+        middle_name = request.form['middle_name'],
+        series = request.form['series'],
+        number = request.form['number']
+        second_name = second_name[0]
+        first_name = first_name[0]
+        middle_name = middle_name[0]
+        series = series[0]
         if check_driver_info_errors(second_name, first_name, middle_name, series, number):
             return redirect(url_for('drivers'))
         try:
             db.add_driver(
-                second_name= request.form['second_name'],
-                first_name= request.form['first_name'],
-                middle_name= request.form['middle_name'],
-                series= request.form['series'],
-                number= request.form['number']
+                second_name=request.form['second_name'],
+                first_name=request.form['first_name'],
+                middle_name=request.form['middle_name'],
+                series=request.form['series'],
+                number=request.form['number']
             )
             flash('Новый водитель добавлен')
         except sqlite3.IntegrityError:
@@ -87,7 +89,6 @@ def add_driver():
 @app.route('/drivers/<int:driver_id>', methods=['POST', 'GET'])
 def update_driver(driver_id):
     driver = db.get_driver(driver_id)
-    act_cars = db.get_all_cars()
     if request.method == 'POST':
         driver_id = request.form['driver_id']
         new_second_name = request.form['second_name']
@@ -95,21 +96,24 @@ def update_driver(driver_id):
         new_middle_name = request.form['middle_name']
         new_series = request.form['series']
         new_number = request.form['number']
-        new_block = request.form['block']
-        new_block_reason = request.form['block_reason']
+        # new_block = request.form['block']
+        # new_block_reason = request.form['block_reason']
+        # if new_second_name==driver.second_name or new_first_name==driver.first_name or new_middle_name==driver.middle_name or new_series==driver.series or new_number==driver.number:
+        #     flash('Вы не сделали никаких изменений')
+        #     return redirect(url_for('drivers'))
         if check_driver_info_errors(new_second_name, new_first_name, new_middle_name, new_series, new_number):
             return redirect(url_for('drivers'))
         try:
-            db.update_driver(driver_id, new_second_name, new_first_name, new_middle_name, new_series, new_number, new_block, new_block_reason)
+            db.update_driver(driver_id, new_second_name, new_first_name, new_middle_name, new_series, new_number)
             flash('Данные о водителе обнавлены')
         except sqlite3.IntegrityError:
             flash('Данные паспорта не могут совпадать с данными паспорта имеющихся водителей!')
-        if driver.block == 1:
-            return render_template('blacklist.html', driver=driver)
-        else:
-            return redirect(url_for('drivers'))
+        # if driver.block == 1:
+        #     return render_template('blacklist.html', driver=driver)
+        # else:
+        return redirect(url_for('drivers'))
 
-    return render_template('update_driver.html', driver=driver, act_cars=act_cars)
+    return render_template('update_driver.html', driver=driver)
 
 
 # Список авто
@@ -156,11 +160,14 @@ def update_car(car_id):
         new_numberplate = request.form['numberplate']
         new_vin = request.form['vin']
         new_sts = request.form['sts']
+        # if new_brand == car.brand or new_model==car.model or new_numberplate==car.numberplate or new_vin==car.vin or new_sts==car.sts:
+        #     flash('Вы не сделали никаких изменений')
+        #     return redirect(url_for('cars'))
         if check_car_info_errors(new_brand, new_model, new_numberplate, new_vin, new_sts):
             return redirect(url_for('cars'))
         try:
             db.update_car(car_id, new_brand, new_model, new_numberplate, new_vin, new_sts)
-            flash('Данные о автомобиле обнавлены')
+            flash('Данные об автомобиле обновлены')
         except sqlite3.IntegrityError:
             flash('Данные номера авто, VIN и СТС не могут совпадать с существующими!')
         return redirect(url_for('cars'))
@@ -170,10 +177,6 @@ def update_car(car_id):
 # Тут у нас валидаторы
 # Проверка инфы о водителе
 def check_driver_info_errors(second_name, first_name, middle_name, series, number):
-    second_name = second_name[0]
-    first_name = first_name[0]
-    middle_name = middle_name[0]
-    series = series[0]
     flash_list = []
     if not re.fullmatch('[А-ЯЁ][а-яё]{,14}', second_name):
         flash_list.append(
@@ -200,15 +203,7 @@ def check_driver_info_errors(second_name, first_name, middle_name, series, numbe
 
 # Проверка инфы об авто
 def check_car_info_errors(brand, model, numberplate, vin, sts):
-    # form = {
-    #     "brand": brand,
-    #     "model": model,
-    #     "numberplate": numberplate,
-    #     "vin": vin,
-    #     "sts": sts
-    # }
     flash_list = []
-    print(type(brand))
     if not re.fullmatch('[A-Z][a-z]{,14}', brand):
         flash_list.append(
             'Название марки авто пишется латинскими буквами, начинается с заглавной буквы и не может превышать 15 симовлов в длине!')

@@ -51,11 +51,11 @@ def drivers():
 @app.route('/index', methods=['POST', 'GET'])
 def add_driver():
     if request.method == 'POST':
-        second_name = request.form['second_name'],
-        first_name = request.form['first_name'],
-        middle_name = request.form['middle_name'],
-        series = request.form['series'],
-        number = request.form['number']
+        second_name = str(request.form['second_name']),
+        first_name = str(request.form['first_name']),
+        middle_name = str(request.form['middle_name']),
+        series = str(request.form['series']),
+        number = str(request.form['number'])
         if check_driver_info_errors(second_name, first_name, middle_name, series, number):
             return render_template('drivers.html')
         try:
@@ -160,6 +160,9 @@ def update_car(car_id):
 # Тут у нас валидаторы
 # Проверка инфы о водителе
 def check_driver_info_errors(second_name, first_name, middle_name, series, number):
+    second_name = str(second_name)
+    second_name = str(first_name)
+    second_name = str(middle_name)
     flash_list = []
     if not re.fullmatch('[А-ЯЁ][а-яё]{,14}', second_name):
         flash_list.append(
@@ -205,7 +208,8 @@ def check_car_info_errors(brand, model, numberplate, vin, sts):
         flash_list.append('Неверно введён номер. Примеры правилно введённого номера: А777МД73, В666АД199')
     if not re.fullmatch('[A-Z1-9]{17}', vin):
         flash_list.append('Неправильно введён VIN. Он состоит из 17 латинских симовлов или арабских цифр!')
-    # Тут должна быть валидация по СТС
+    if not re.fullmatch('\d{10}', sts):
+        flash_list.append('Неправильно введён номер СТС. Он состоит строго из 10 цифр!')
     if flash_list:
         for message in flash_list:
             flash(message)

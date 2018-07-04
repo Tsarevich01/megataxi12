@@ -4,6 +4,7 @@ from app.forms import LoginForm
 import re
 import sqlite3
 import datetime
+# -*- coding: utf-8 -*-
 
 # Главная
 @app.route('/')

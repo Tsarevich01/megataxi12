@@ -5,6 +5,8 @@
 <head>
         <link href="static/style.css" rel="stylesheet">
         <script src="static/jsstyle.js"></script>
+
+
     </head>
 
 {% block right_content %}
@@ -22,6 +24,43 @@
         <input type="button" value="Click" onmousedown="viewDiv()">
         <div id="div1">Блок</div>
         <button type="submit" class="btn btn-primary">Сохранить</button>
-        <a href="/acts/{{ driver.id }}">Составить акт</a>
+        <a href="#">Составить акт</a>
+        <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                //Скрыть PopUp при загрузке страницы
+                PopUpHide();
+            });
+            //Функция отображения PopUp
+            function PopUpShow(){
+                $("#popup1").show();
+            }
+            //Функция скрытия PopUp
+            function PopUpHide(){
+                $("#popup1").hide();
+            }
+        </script>
+        <div class="b-container">
+        <a href="javascript:PopUpShow()">Выберете машину</a>
+        </div>
+        <div class="b-popup" id="popup1">
+            <div class="b-popup-content">
+                <div>
+                    {% if act_cars %}
+                        {% for car in act_cars %}
+                            <p>
+                                <a href="/acts/{{ driver.id }}">
+                                    {{ car.id }}.{{ car.brand }} {{ car.model }} {{ car.numberplate }}
+                                </a>
+                            </p>
+                        {% endfor %}
+                    {% else %}
+                        <p>Список авто пуст</p>
+                    {% endif %}
+                </div>
+            <a href="javascript:PopUpHide()">Закрыть</a>
+            </div>
+        </div>
+
     </form>
 {% endblock %}

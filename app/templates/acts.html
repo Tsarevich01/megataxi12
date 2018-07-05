@@ -1,7 +1,13 @@
-<!{% extends "base.html" %}
-
+{% extends "base.html" %}
+<h1>Акты</h1>
 {% block content %}
-    <h1>Акты</h1>
+<form method="post" action="input5.php">
+   <p><b>Список актов на печать</b></p>
+    {% for act in acts %}
+       <input type="checkbox" name="option1" value="act" checked>{{ act }}<Br>
+       <p><input type="submit" value="Отправить"></p>
+    {% endfor %}
+  </form>
 
 
 {% endblock %}

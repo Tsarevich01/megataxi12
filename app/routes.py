@@ -89,6 +89,7 @@ def add_driver():
 @app.route('/drivers/<int:driver_id>', methods=['POST', 'GET'])
 def update_driver(driver_id):
     driver = db.get_driver(driver_id)
+    act_cars = db.get_all_cars()
     if request.method == 'POST':
         driver_id = request.form['driver_id']
         new_second_name = request.form['second_name']
@@ -96,7 +97,7 @@ def update_driver(driver_id):
         new_middle_name = request.form['middle_name']
         new_series = request.form['series']
         new_number = request.form['number']
-        # new_block = request.form['block']
+        #  new_block = request.form['block']
         # new_block_reason = request.form['block_reason']
         # if new_second_name==driver.second_name or new_first_name==driver.first_name or new_middle_name==driver.middle_name or new_series==driver.series or new_number==driver.number:
         #     flash('Вы не сделали никаких изменений')
@@ -113,7 +114,7 @@ def update_driver(driver_id):
         # else:
         return redirect(url_for('drivers'))
 
-    return render_template('update_driver.html', driver=driver)
+    return render_template('update_driver.html', driver=driver, act_cars=act_cars)
 
 
 # Список авто

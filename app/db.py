@@ -182,3 +182,19 @@ def update_car(car_id, new_brand, new_model, new_numberplate, new_vin, new_sts):
         [datetime.datetime.now(), 'update_driver', car_id]
     )
     conn.commit()
+
+
+# Get history
+def get_history():
+    conn, cur = get_db()
+    his_rows = cur.execute('SELECT date, event_type, int_field, txt_field FROM event').fetchall()
+    his = []
+    for his_row in his_rows:
+        event = {
+            'date': his_row[0],
+            'event_type': his_row[1],
+            'int_field': his_row[2],
+            'txt_field': his_row[3]
+        }
+        his.append(event)
+    return his

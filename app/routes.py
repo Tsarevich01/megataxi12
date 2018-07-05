@@ -11,9 +11,8 @@ import datetime
 @app.route('/')
 @app.route('/index')
 def index():
-    user = {'username': 'man'}
-    history_car = []
-    return render_template('index.html', title='Главная', user=user, posts=history_car)
+    his = db.get_history()[::-1]
+    return render_template('index.html', title='Главная', his=his)
 
 
 # Авторизация

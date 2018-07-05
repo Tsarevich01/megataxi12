@@ -1,3 +1,4 @@
+import datetime
 import sqlite3
 
 
@@ -80,15 +81,38 @@ def add_driver(second_name, first_name, middle_name, series, number):
         'INSERT INTO driver (second_name, first_name, middle_name, series_number) VALUES (?, ?, ?, ?)',
         [second_name, first_name, middle_name, series_number]
     )
+    max_id = cur.execute('SELECT MAX(id) FROM driver').fetchone()
+    max_id = max_id[0]
+    cur.execute(
+        'INSERT INTO event (date, event_type, int_field) VALUES (?, ?, ?)',
+        [datetime.datetime.now(), 'add_driver', max_id]
+    )
     conn.commit()
 
 
 # Update driver
-def update_driver(driver_id, new_second_name, new_first_name, new_middle_nam, new_series, new_number, new_block=0, new_block_reason=None, car_id = None):
+def update_driver(driver_id, new_second_name, new_first_name, new_middle_nam, new_series, new_number, new_block=0, new_block_reason=None, new_car_id = None):
     conn, cur = get_db()
+    last_car_id = cur.execute('SELECT car_id FROM driver WHERE id=?',[driver_id]).fetchone()[0]
     series_number = new_series + new_number
     cur.execute('UPDATE driver SET second_name = ?, first_name =?, middle_name = ?, series_number = ?, block = ?, block_reason = ?, car_id = ? WHERE id = ?',
-                [new_second_name, new_first_name, new_middle_nam, series_number, new_block, new_block_reason, car_id, driver_id])
+                [new_second_name, new_first_name, new_middle_nam, series_number, new_block, new_block_reason, new_car_id, driver_id])
+    if new_block == 1:
+        cur.execute(
+            'INSERT INTO event (date, event_type, int_field, text_field) VALUES (?, ?, ?, ?)',
+            [datetime.datetime.now(), 'add_to_bl', driver_id, new_block_reason]
+        )
+        conn.commit()
+        return
+    elif new_car_id != last_car_id:
+        cur.execute(
+            'INSERT INTO event (date, event_type, int_field, text_field) VALUES (?, ?, ?, ?)',
+            [datetime.datetime.now(), 'change_car', driver_id, str(new_car_id)]
+        )
+    cur.execute(
+        'INSERT INTO event (date, event_type, int_field) VALUES (?, ?, ?)',
+        [datetime.datetime.now(), 'update_driver', driver_id]
+    )
     conn.commit()
 
 
@@ -139,6 +163,12 @@ def add_car(brand, model, numberplate, vin, sts):
         'INSERT INTO cars (brand, model, numberplate, vin, sts) VALUES (?, ?, ?, ?, ?)',
         [brand, model, numberplate, vin, sts]
     )
+    max_id = cur.execute('SELECT MAX(id) FROM cars').fetchone()
+    max_id = max_id[0]
+    cur.execute(
+        'INSERT INTO event (date, event_type, int_field) VALUES (?, ?, ?)',
+        [datetime.datetime.now(), 'add_car', max_id]
+    )
     conn.commit()
 
 
@@ -147,4 +177,8 @@ def update_car(car_id, new_brand, new_model, new_numberplate, new_vin, new_sts):
     conn, cur = get_db()
     cur.execute('UPDATE cars SET brand = ?, model =?, numberplate = ?, vin = ?, sts = ? WHERE id = ?',
                 [new_brand, new_model, new_numberplate, new_vin, new_sts, car_id])
+    cur.execute(
+        'INSERT INTO event (date, event_type, int_field) VALUES (?, ?, ?)',
+        [datetime.datetime.now(), 'update_driver', car_id]
+    )
     conn.commit()

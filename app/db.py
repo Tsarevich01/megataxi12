@@ -209,7 +209,7 @@ def get_history():
         elif event_type == 'change_car':
             driver = get_driver(int_field)
             car = get_car(int_field)
-            txt_field = driver['second_name'] + ' ' + driver['first_name']
+            txt_field = driver['second_name'] + ' ' + driver['first_name'] + ' ' + driver['middle_name'] + ' ' + driver['series'] + ' ' + driver['number']
             additional_field = car['brand'] + ' ' + car['model'] + ' ' + car['numberplate']
         event = {
             'date': his_row[0],
@@ -220,3 +220,25 @@ def get_history():
         }
         his.append(event)
     return his
+
+
+def get_acts():
+    his = get_history()
+    acts = []
+    for event in his:
+        if event['event_type'] != 'change_car':
+            continue
+        second_name, first_name, middle_name, series, number = event['txt_field'].split(' ')
+        brand, model, numberplate = event['additional_field'].split(' ')
+        act = {
+            'second_name': second_name,
+            'first_name': first_name,
+            'middle_name': middle_name,
+            'series': series,
+            'number': number,
+            'brand': brand,
+            'model': model,
+            'numberplate': numberplate
+        }
+        acts.append(act)
+    return acts

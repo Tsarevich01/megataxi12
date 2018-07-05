@@ -29,7 +29,9 @@ def login():
 # Акты
 @app.route('/acts')
 def acts():
-    return render_template('acts.html', title='Акты')
+    acts = db.get_acts()[::-1]
+    print(acts)
+    return render_template('acts.html', title='Акты', acts=acts)
 
 
 @app.route('/acts/<int:driver_id>', methods=['POST', 'GET'])

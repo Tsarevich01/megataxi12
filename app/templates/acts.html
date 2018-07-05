@@ -2,11 +2,15 @@
 <h1>Акты</h1>
 {% block content %}
 <form method="post" action="input5.php">
-   <p><b>Список актов на печать</b></p>
-    {% for act in acts %}
-       <input type="checkbox" name="option1" value="act" checked>{{ act }}<Br>
-       <p><input type="submit" value="Отправить"></p>
-    {% endfor %}    
+   <h3>Список актов на печать</h3>
+    {% if acts %}
+        {% for act in acts %}
+           <input type="checkbox" name="option1" value="act" checked>Акт передачи водителю {{ act.second_name }} {{ act.first_name }} {{ act.middle_name }} {{ act.series }} {{ act.number }} авто {{ act.brand }} {{ act.model }} {{ act.numberplate }}<Br>
+           <p><input type="submit" value="Отправить"></p>
+        {% endfor %}
+    {% else %}
+        <p>Список актов пуст</p>
+    {% endif %}
   </form>
 
 

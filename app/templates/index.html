@@ -18,7 +18,7 @@
         {% elif event.event_type == 'change_car' %}
         {{ event.date }}:   Водитель {{ event.txt_field }} получил автомобиль {{ event.additional_field }}
         {% endif %}
-        
+
         </p>
     {% endfor %}
 {% endblock %}

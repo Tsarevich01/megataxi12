@@ -2,6 +2,9 @@ import datetime
 import sqlite3
 
 
+time_format = '%d.%m.%Y %H:%M:%S'
+
+
 # Get DB
 def get_db():
     conn = sqlite3.connect('DataBase.db')
@@ -85,7 +88,7 @@ def add_driver(second_name, first_name, middle_name, series, number):
     max_id = max_id[0]
     cur.execute(
         'INSERT INTO event (date, event_type, int_field) VALUES (?, ?, ?)',
-        [datetime.datetime.now(), 'add_driver', max_id]
+        [datetime.datetime.now().strftime(time_format), 'add_driver', max_id]
     )
     conn.commit()
 
@@ -100,18 +103,18 @@ def update_driver(driver_id, new_second_name, new_first_name, new_middle_nam, ne
     if new_block == 1:
         cur.execute(
             'INSERT INTO event (date, event_type, int_field, text_field) VALUES (?, ?, ?, ?)',
-            [datetime.datetime.now(), 'add_to_bl', driver_id, new_block_reason]
+            [datetime.datetime.now().strftime(time_format), 'add_to_bl', driver_id, new_block_reason]
         )
         conn.commit()
         return
     elif new_car_id != last_car_id:
         cur.execute(
             'INSERT INTO event (date, event_type, int_field, text_field) VALUES (?, ?, ?, ?)',
-            [datetime.datetime.now(), 'change_car', driver_id, str(new_car_id)]
+            [datetime.datetime.now().strftime(time_format), 'change_car', driver_id, str(new_car_id)]
         )
     cur.execute(
         'INSERT INTO event (date, event_type, int_field) VALUES (?, ?, ?)',
-        [datetime.datetime.now(), 'update_driver', driver_id]
+        [datetime.datetime.now().strftime(time_format), 'update_driver', driver_id]
     )
     conn.commit()
 
@@ -167,7 +170,7 @@ def add_car(brand, model, numberplate, vin, sts):
     max_id = max_id[0]
     cur.execute(
         'INSERT INTO event (date, event_type, int_field) VALUES (?, ?, ?)',
-        [datetime.datetime.now(), 'add_car', max_id]
+        [datetime.datetime.now().strftime(time_format), 'add_car', max_id]
     )
     conn.commit()
 
@@ -179,7 +182,7 @@ def update_car(car_id, new_brand, new_model, new_numberplate, new_vin, new_sts):
                 [new_brand, new_model, new_numberplate, new_vin, new_sts, car_id])
     cur.execute(
         'INSERT INTO event (date, event_type, int_field) VALUES (?, ?, ?)',
-        [datetime.datetime.now(), 'update_driver', car_id]
+        [datetime.datetime.now().strftime(time_format), 'update_driver', car_id]
     )
     conn.commit()
 

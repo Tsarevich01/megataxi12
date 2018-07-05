@@ -21,37 +21,15 @@
             <input type="text" class="form-control" id="series" name="series" value="{{ driver.series }}">
             <input type="text" class="form-control" id="number" name="number" value="{{ driver.number }}">
         </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <button type="submit" class="btn btn-primary">Добавить в ЧС</button>
+
         <div>
         <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
-        <script>
-            $(document).ready(function(){
-                //Скрыть PopUp при загрузке страницы
-                PopUpHide();
-            });
-            //Функция отображения PopUp
-            function PopUpShow(){
-                $("#popup1").show();
-            }
-            //Функция скрытия PopUp
-            function PopUpHide(){
-                $("#popup1").hide();
-            }
-        </script>
-        <input type="button" class="form-control" id="block" name="block" value="{{ driver.block }}">
-        <div class="b-container">
-        <a href="javascript:PopUpShow()">Причина добавления</a>
-        </div>
-        <div class="b-popup" id="popup1">
-            <div class="b-popup-content">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="block_reason" name="block_reason" value="{{ driver.block_reason }}" placeholder="В кратце">
-                </div>
-                    <a href="javascript:PopUpHide()">Закрыть</a>
-            </div>
-        </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
-        <a href="#" style="margin-top: 100px">Составить акт</a>
+
+
+
+        <a href="#" style="margin-top: 200px">Составить акт</a>
         <script>
             $(document).ready(function(){
                 //Скрыть PopUp при загрузке страницы

@@ -98,18 +98,18 @@ def update_driver(driver_id):
         new_middle_name = request.form['middle_name']
         new_series = request.form['series']
         new_number = request.form['number']
-        #  new_block = request.form['block']
-        # new_block_reason = request.form['block_reason']
+        # new_block = request.form['block']
+        new_block_reason = request.form['block_reason']
         # if new_second_name==driver.second_name or new_first_name==driver.first_name or new_middle_name==driver.middle_name or new_series==driver.series or new_number==driver.number:
         #     flash('Вы не сделали никаких изменений')
         #     return redirect(url_for('drivers'))
         if check_driver_info_errors(new_second_name, new_first_name, new_middle_name, new_series, new_number):
             return redirect(url_for('drivers'))
-        try:
-            db.update_driver(driver_id, new_second_name, new_first_name, new_middle_name, new_series, new_number)
-            flash('Данные о водителе обнавлены')
-        except sqlite3.IntegrityError:
-            flash('Данные паспорта не могут совпадать с данными паспорта имеющихся водителей!')
+        # try:
+        db.update_driver(driver_id, new_second_name, new_first_name, new_middle_name, new_series, new_number, new_block=0)
+        flash('Данные о водителе обнавлены')
+        # except sqlite3.IntegrityError:
+        #     flash('Данные паспорта не могут совпадать с данными паспорта имеющихся водителей!')
         # if driver.block == 1:
         #     return render_template('blacklist.html', driver=driver)
         # else:

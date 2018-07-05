@@ -9,8 +9,7 @@ CREATE TABLE driver (
   second_name TEXT NOT NULL,
   first_name TEXT NOT NULL,
   middle_name TEXT NULL,
-  series INTEGER UNIQUE NOT NULL,
-  number INTEGER UNIQUE NOT NULL,
+  series_number INTEGER UNIQUE NOT NULL,
   block bit NOT NULL DEFAULT 0,
   block_reason TEXT NULL,
   car_id INTEGER UNIQUE NULL

@@ -1,9 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>История об автомобилях</h2>
+    <h2>История событий</h2>
+    {% for event in his %}
+        <p>
 
-
+        {% if event.event_type == 'add_driver' %}
+        {{ event.date }}:   Добавлен водитель {{ event.txt_field}}
+        {% elif event.event_type == 'update_driver' %}
+        {{ event.date }}:   Информация о водителе {{ event.txt_field }} изменена
+        {% elif event.event_type == 'add_car' %}
+        {{ event.date }}:   Добавлен автомобиль {{ event.txt_field }}
+        {% elif event.event_type == 'update_car' %}
+        {{ event.date }}:   Информация об автомобиле {{ event.txt_field }} изменена
+        {% elif event.event_type == 'add_to_bl' %}
+        {{ event.date }}:   Водитель {{ event.additional_field }} добавлен в ЧС по причине: {{ event.txt_field }}
+        {% elif event.event_type == 'change_car' %}
+        {{ event.date }}:   Водитель {{ event.txt_field }} получил автомобиль {{ event.additional_field }}
+        {% endif %}
+        
+        </p>
+    {% endfor %}
 {% endblock %}
 {% block right_content %}
     <head>

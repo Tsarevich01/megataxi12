@@ -190,11 +190,30 @@ def get_history():
     his_rows = cur.execute('SELECT date, event_type, int_field, txt_field FROM event').fetchall()
     his = []
     for his_row in his_rows:
+        event_type = his_row[1]
+        int_field = his_row[2]
+        txt_field = his_row[3]
+        additional_field = None
+        if event_type == 'add_driver' or event_type == 'update_driver':
+            driver = get_driver(int_field)
+            txt_field = driver['second_name'] + ' ' + driver['first_name']
+        elif event_type == 'add_car' or event_type == 'update_car':
+            car = get_car(int_field)
+            txt_field = car['brand'] + ' ' + car['model'] + ' ' + car['numberplate']
+        elif event_type == 'add_to_bl':
+            driver = get_driver(int_field)
+            additional_field = driver['second_name'] + ' ' + driver['first_name']
+        elif event_type == 'change_car':
+            driver = get_driver(int_field)
+            car = get_car(int_field)
+            txt_field = driver['second_name'] + ' ' + driver['first_name']
+            additional_field = car['brand'] + ' ' + car['model'] + ' ' + car['numberplate']
         event = {
             'date': his_row[0],
-            'event_type': his_row[1],
-            'int_field': his_row[2],
-            'txt_field': his_row[3]
+            'event_type': event_type,
+            'int_field': int_field,
+            'txt_field': txt_field,
+            'additional_field': additional_field
         }
         his.append(event)
     return his

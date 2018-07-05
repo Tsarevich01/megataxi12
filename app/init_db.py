@@ -28,7 +28,7 @@ CREATE TABLE cars (
 
 CREATE TABLE event (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  date TIMESTAMP NOT NULL,
+  date TEXT NOT NULL,
   event_type TEXT NOT NULL,
   int_field INTEGER NOT NULL,
   txt_field TEXT NULL

@@ -21,8 +21,8 @@ def get_all_drivers():
             "second_name": driver_row[1],
             "first_name": driver_row[2],
             "middle_name": driver_row[3],
-            "series": driver_row[4] // 1000000,
-            "number": driver_row[4] % 1000000,
+            "series": driver_row[4][:4],
+            "number": driver_row[4][4:],
             "block": driver_row[5],
             "block_reason": driver_row[6],
             "car_id": driver_row[7]
@@ -42,8 +42,8 @@ def get_driver(driver_id):
         "second_name": driver_row[0],
         "first_name": driver_row[1],
         "middle_name": driver_row[2],
-        "series": driver_row[3] // 1000000,
-        "number": driver_row[3] % 1000000,
+        "series": driver_row[3][:4],
+        "number": driver_row[3][4:],
         "block": driver_row[4],
         "block_reason": driver_row[5],
         "car_id": driver_row[6]
@@ -64,8 +64,8 @@ def get_blocked_drivers():
             "second_name": driver_row[1],
             "first_name": driver_row[2],
             "middle_name": driver_row[3],
-            "series": driver_row[4] // 1000000,
-            "number": driver_row[4] % 1000000,
+            "series": driver_row[4][:4],
+            "number": driver_row[4][:4],
             "block_reason": driver_row[5]
         }
         drivers.append(driver)
@@ -75,9 +75,7 @@ def get_blocked_drivers():
 # Add new driver
 def add_driver(second_name, first_name, middle_name, series, number):
     conn, cur = get_db()
-    series = int(series)
-    number = int(number)
-    series_number = series * 1000000 + number
+    series_number = series + number
     cur.execute(
         'INSERT INTO driver (second_name, first_name, middle_name, series_number) VALUES (?, ?, ?, ?)',
         [second_name, first_name, middle_name, series_number]
@@ -88,9 +86,7 @@ def add_driver(second_name, first_name, middle_name, series, number):
 # Update driver
 def update_driver(driver_id, new_second_name, new_first_name, new_middle_nam, new_series, new_number, new_block=0, new_block_reason=None, car_id = None):
     conn, cur = get_db()
-    new_series = int(new_series)
-    new_number = int(new_number)
-    series_number = new_series * 1000000 + new_number
+    series_number = new_series + new_number
     cur.execute('UPDATE driver SET second_name = ?, first_name =?, middle_name = ?, series_number = ?, block = ?, block_reason = ?, car_id = ? WHERE id = ?',
                 [new_second_name, new_first_name, new_middle_nam, series_number, new_block, new_block_reason, car_id, driver_id])
     conn.commit()

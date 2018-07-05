@@ -1,6 +1,7 @@
 import sqlite3
 
 
+# Get DB
 def get_db():
     conn = sqlite3.connect('DataBase.db')
     cur = conn.cursor()

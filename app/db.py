@@ -55,7 +55,7 @@ def get_driver(driver_id):
 def get_blocked_drivers():
     conn, cur = get_db()
     driver_rows = cur.execute(
-        'SELECT id, second_name, first_name, middle_name, series, number, block_reason, car_id FROM driver WHERE block = 1'
+        'SELECT id, second_name, first_name, middle_name, series, number, block_reason FROM driver WHERE block = 1'
     ).fetchall()
     drivers = []
     for driver_row in driver_rows:
@@ -66,8 +66,7 @@ def get_blocked_drivers():
             "middle_name": driver_row[3],
             "series": driver_row[4],
             "number": driver_row[5],
-            "block_reason": driver_row[6],
-            "car_id": driver_row[7]
+            "block_reason": driver_row[6]
         }
         drivers.append(driver)
     return drivers
@@ -95,7 +94,7 @@ def update_driver(driver_id, new_second_name, new_first_name, new_middle_nam, ne
 def get_all_cars():
     conn, cur = get_db()
     car_rows = cur.execute(
-        'SELECT id, brand, model, numberplate, vin, sts FROM cars'
+        'SELECT id, brand, model, numberplate, vin, sts, driver_id FROM cars'
     ).fetchall()
     cars = []
     for car_row in car_rows:
@@ -105,7 +104,8 @@ def get_all_cars():
             'model': car_row[2],
             'numberplate': car_row[3],
             'vin': car_row[4],
-            'sts': car_row[5]
+            'sts': car_row[5],
+            'driver_id': car_row[6]
         }
         cars.append(car)
     return cars
@@ -115,7 +115,7 @@ def get_all_cars():
 def get_car(car_id):
     conn, cur = get_db()
     car_row = cur.execute(
-        'SELECT brand, model, numberplate, vin, sts FROM cars WHERE id = ?',
+        'SELECT brand, model, numberplate, vin, sts, driver_id FROM cars WHERE id = ?',
         [car_id]
     ).fetchone()
     car = {
@@ -124,7 +124,8 @@ def get_car(car_id):
         'model': car_row[1],
         'numberplate': car_row[2],
         'vin': car_row[3],
-        'sts': car_row[4]
+        'sts': car_row[4],
+        'driver_id': car_row[5]
     }
     return car
 

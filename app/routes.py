@@ -6,6 +6,7 @@ import sqlite3
 import datetime
 # -*- coding: utf-8 -*-
 
+
 # Главная
 @app.route('/')
 @app.route('/index')

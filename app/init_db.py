@@ -1,4 +1,4 @@
-from app import db
+import db
 
 schema_sql = '''
 DROP TABLE IF EXISTS driver;
@@ -13,7 +13,7 @@ CREATE TABLE driver (
   number INTEGER UNIQUE NOT NULL,
   block bit NOT NULL DEFAULT 0,
   block_reason TEXT NULL,
-  car_id INTEGER NULL
+  car_id INTEGER UNIQUE NULL
 ); 
 
 CREATE TABLE cars (
@@ -22,7 +22,8 @@ CREATE TABLE cars (
   model TEXT NOT NULL,
   numberplate TEXT UNIQUE NOT NULL,
   vin TEXT UNIQUE NOT NULL,
-  sts TEXT UNIQUE NOT NULL
+  sts TEXT UNIQUE NOT NULL,
+  driver_id INTEGER UNIQUE NULL 
 );
 '''
 # Сканов нема

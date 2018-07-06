@@ -7,9 +7,7 @@
         {% for blocked_driver in blocked_drivers %}
         <p>
 
-            <a href="/driver/{{ blocked_driver.id }}">
-                {{ blocked_driver.second_name }}         {{ blocked_driver.first_name }}         {{ blocked_driver.middle_name }}         {{ blocked_driver.series }}         {{ blocked_driver.number }}         {{ blocked_driver.block_reason }}
-            </a>
+            {{ blocked_driver.second_name }}         {{ blocked_driver.first_name }}         {{ blocked_driver.middle_name }}         {{ blocked_driver.series }}         {{ blocked_driver.number }}         {{ blocked_driver.block_reason }}
 
         </p>
         {% endfor %}

@@ -55,6 +55,30 @@ def get_driver(driver_id):
     return driver
 
 
+# Get unblocked drivers
+def get_unblocked_drivers():
+    conn, cur = get_db()
+    driver_rows = cur.execute(
+        'SELECT id, second_name, first_name, middle_name, series_number, block, block_reason, car_id FROM driver WHERE block = ?',
+        [0]
+    ).fetchall()
+    drivers = []
+    for driver_row in driver_rows:
+        driver = {
+            "id": driver_row[0],
+            "second_name": driver_row[1],
+            "first_name": driver_row[2],
+            "middle_name": driver_row[3],
+            "series": driver_row[4][:4],
+            "number": driver_row[4][4:],
+            "block": driver_row[5],
+            "block_reason": driver_row[6],
+            "car_id": driver_row[7]
+        }
+        drivers.append(driver)
+    return drivers
+
+
 # Get blocked drivers
 def get_blocked_drivers():
     conn, cur = get_db()
@@ -110,6 +134,14 @@ def update_driver(driver_id, new_second_name, new_first_name, new_middle_nam, ne
         'INSERT INTO event (date, event_type, int_field) VALUES (?, ?, ?)',
         [datetime.datetime.now().strftime(time_format), 'update_driver', driver_id]
     )
+    conn.commit()
+
+
+# Add to BL
+def add_to_bl(driver_id, block_reason):
+    conn, cur = get_db()
+    change_car(driver_id, 0)
+    cur.execute('UPDATE driver SET block = ?, block_reason = ? WHERE id = ?', [1, block_reason, driver_id])
     conn.commit()
 
 

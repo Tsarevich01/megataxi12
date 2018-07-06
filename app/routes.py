@@ -52,7 +52,7 @@ def blacklist():
 # Водители
 @app.route('/drivers')
 def drivers():
-    drivers=db.get_all_drivers()
+    drivers=db.get_unblocked_drivers()
     return render_template('drivers.html', title='Водители', drivers=drivers)
 
 
@@ -103,6 +103,10 @@ def update_driver(driver_id):
         new_middle_name = request.form['middle_name']
         new_series = request.form['series']
         new_number = request.form['number']
+        bl_reason = request.form['block_reason']
+        if bl_reason:
+            db.add_to_bl(driver_id, bl_reason)
+            return redirect(url_for('drivers'))
         if new_second_name==driver['second_name'] and new_first_name==driver['first_name'] and new_middle_name==driver['middle_name'] and new_series==driver['series'] and new_number==driver['number']:
             flash('Вы не сделали никаких изменений')
             return redirect(url_for('drivers'))

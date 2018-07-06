@@ -20,8 +20,20 @@
             <input type="text" class="form-control" id="series" name="series" value="{{ driver.series }}">
             <input type="text" class="form-control" id="number" name="number" value="{{ driver.number }}">
         </div>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
-        <button type="submit" class="btn btn-primary">Добавить в ЧС</button>
+        <div id="show-bl-list">
+            <a href="javascript:showBLlist()">Добавить в чёрный список</a>
+        </div>
+        <div id="bl-list">
+            <div>
+            <a href="javascript:hideBLlist()">Отменить</a>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="block_reason" name="block_reason" placeholder="Причина">
+            </div>
+            <button type="submit" class="btn btn-primary">Добавить в чёрный список</button>
+        </div>
+        <button type="submit" class="btn btn-primary" id="save-button">Сохранить</button>
+
 
         <div>
         <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
@@ -29,7 +41,9 @@
 
         <script>
             showed = false;
+            showed_bl_form = false;
             $(document).ready(function(){
+                hideBLlist();
                 //Скрыть PopUp при загрузке страницы
                 PopUpHide();
             });
@@ -39,6 +53,16 @@
                 } else {
                     PopUpShow();
                 }
+            }
+            function hideBLlist() {
+                $("#bl-list").hide();
+                $("#show-bl-list").show();
+                $("#save-button").show();
+            }
+            function showBLlist() {
+                $("#bl-list").show();
+                $("#show-bl-list").hide();
+                $("#save-button").hide();
             }
             //Функция отображения PopUp
             function PopUpShow(){

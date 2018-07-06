@@ -14,7 +14,6 @@
 
     <form method="post">
         <div class="form-group">
-            <input type="hidden" id="driver_id" name="driver_id" value="{{ driver.id }}">
             <input type="text" class="form-control" id="second_name" name="second_name" value="{{ driver.second_name }}">
             <input type="text" class="form-control" id="first_name" name="first_name" value="{{ driver.first_name }}">
             <input type="text" class="form-control" id="middle_name" name="middle_name" value="{{ driver.middle_name }}">
@@ -29,16 +28,26 @@
 
 
         <script>
+            showed = false;
             $(document).ready(function(){
                 //Скрыть PopUp при загрузке страницы
                 PopUpHide();
             });
+            function actionButton(){
+                if (showed){
+                    PopUpHide();
+                } else {
+                    PopUpShow();
+                }
+            }
             //Функция отображения PopUp
             function PopUpShow(){
+                showed = true;
                 $("#popup2").show();
             }
             //Функция скрытия PopUp
             function PopUpHide(){
+                showed = false;
                 $("#popup2").hide();
             }
         </script>
@@ -47,7 +56,7 @@
             <p><b>Сейчас работает на {{ drivers_car.brand }} {{ drivers_car.model }} {{ drivers_car.numberplate }}</b></p>
             <a href="{{ driver.id }}/gets_car/0">Вернуть авто в таксопарк</a>
         {% else %}
-        <a href="javascript:PopUpShow()">Выберете машину</a>
+        <a href="javascript:actionButton()">Выберете машину</a>
         </div>
         <div class="b-popup" id="popup2">
             <div class="b-popup-content">
@@ -62,10 +71,9 @@
             {% else %}
                 <p>Список авто пуст</p>
             {% endif %}
-            <a href="javascript:PopUpHide()">Закрыть</a>
             </div>
         </div>
         {% endif %}
-
+        </div>
     </form>
 {% endblock %}

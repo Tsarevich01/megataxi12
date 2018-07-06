@@ -96,18 +96,14 @@ def update_driver(driver_id):
     if driver['car_id'] != None:
         drivers_car = db.get_car(driver['car_id'])
     if request.method == 'POST':
-        driver_id = request.form['driver_id']
         new_second_name = request.form['second_name']
         new_first_name = request.form['first_name']
         new_middle_name = request.form['middle_name']
         new_series = request.form['series']
         new_number = request.form['number']
-        # new_block = request.form['block']
-        new_block_reason = request.form['block_reason']
-        # if new_second_name==driver.second_name or new_first_name==driver.first_name or new_middle_name==driver.middle_name or new_series==driver.series or new_number==driver.number:
-        #     flash('Вы не сделали никаких изменений')
-        #     return redirect(url_for('drivers'))
-
+        if new_second_name==driver['second_name'] and new_first_name==driver['first_name'] and new_middle_name==driver['middle_name'] and new_series==driver['series'] and new_number==driver['number']:
+            flash('Вы не сделали никаких изменений')
+            return redirect(url_for('drivers'))
         if check_driver_info_errors(new_second_name, new_first_name, new_middle_name, new_series, new_number):
             return redirect(url_for('drivers'))
         try:
@@ -115,9 +111,6 @@ def update_driver(driver_id):
             flash('Данные о водителе обновлены')
         except sqlite3.IntegrityError:
             flash('Данные паспорта не могут совпадать с данными паспорта имеющихся водителей!')
-        # if driver.block == 1:
-        #     return render_template('blacklist.html', driver=driver)
-        # else:
         return redirect(url_for('drivers'))
     return render_template('update_driver.html', driver=driver, cars=cars, drivers_car=drivers_car)
 
@@ -168,15 +161,14 @@ def add_car():
 def update_car(car_id):
     car = db.get_car(car_id)
     if request.method == 'POST':
-        car_id = request.form['car_id']
         new_brand = request.form['brand']
         new_model = request.form['model']
         new_numberplate = request.form['numberplate']
         new_vin = request.form['vin']
         new_sts = request.form['sts']
-        # if new_brand == car.brand or new_model==car.model or new_numberplate==car.numberplate or new_vin==car.vin or new_sts==car.sts:
-        #     flash('Вы не сделали никаких изменений')
-        #     return redirect(url_for('cars'))
+        if new_brand == car['brand'] and new_model == car['model'] and new_numberplate == car['numberplate'] and new_vin == car['vin'] and new_sts == car['sts']:
+            flash('Вы не сделали никаких изменений')
+            return redirect(url_for('cars'))
         if check_car_info_errors(new_brand, new_model, new_numberplate, new_vin, new_sts):
             return redirect(url_for('cars'))
         try:

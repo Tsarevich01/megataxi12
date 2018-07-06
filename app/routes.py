@@ -138,15 +138,19 @@ def add_car():
     if request.method == 'POST':
         brand = request.form['brand']
         model = request.form['model']
+        color = request.form['color']
         numberplate = request.form['numberplate']
+        year = request.form['year']
         vin = request.form['vin']
         sts = request.form['sts']
-        if check_car_info_errors(brand, model, numberplate, vin, sts):
+        if check_car_info_errors(brand, model, color, year, numberplate, vin, sts):
             return redirect(url_for('cars'))
         try:
             db.add_car(
                 brand=brand,
                 model=model,
+                color=color,
+                year=year,
                 numberplate=numberplate,
                 vin=vin,
                 sts=sts)
@@ -165,16 +169,18 @@ def update_car(car_id):
     if request.method == 'POST':
         new_brand = request.form['brand']
         new_model = request.form['model']
+        new_color = request.form['color']
         new_numberplate = request.form['numberplate']
+        new_year = request.form['year']
         new_vin = request.form['vin']
         new_sts = request.form['sts']
-        if new_brand == car['brand'] and new_model == car['model'] and new_numberplate == car['numberplate'] and new_vin == car['vin'] and new_sts == car['sts']:
+        if new_brand == car['brand'] and new_model == car['model'] and new_color == car['color'] and new_year == car['year'] and new_numberplate == car['numberplate'] and new_vin == car['vin'] and new_sts == car['sts']:
             flash('Вы не сделали никаких изменений')
             return redirect(url_for('cars'))
-        if check_car_info_errors(new_brand, new_model, new_numberplate, new_vin, new_sts):
+        if check_car_info_errors(new_brand, new_model, new_color, new_year, new_numberplate, new_vin, new_sts):
             return redirect(url_for('cars'))
         try:
-            db.update_car(car_id, new_brand, new_model, new_numberplate, new_vin, new_sts)
+            db.update_car(car_id, new_brand, new_model, new_color, new_year, new_numberplate, new_vin, new_sts)
             flash('Данные об автомобиле обновлены')
         except sqlite3.IntegrityError:
             flash('Данные номера авто, VIN и СТС не могут совпадать с существующими!')
@@ -210,7 +216,7 @@ def check_driver_info_errors(second_name, first_name, middle_name, series, numbe
 
 
 # Проверка инфы об авто
-def check_car_info_errors(brand, model, numberplate, vin, sts):
+def check_car_info_errors(brand, model, color, year, numberplate, vin, sts):
     flash_list = []
     if not re.fullmatch('[A-Z][a-z]{,14}', brand):
         flash_list.append(
@@ -218,8 +224,12 @@ def check_car_info_errors(brand, model, numberplate, vin, sts):
     if not re.fullmatch('[A-Z][a-zA-Z]{,14}', model):
         flash_list.append(
             'Название модели авто пишется латинскими буквами, начинается с заглавной буквы и не может превышать 15 симовлов в длине!')
+    if not re.fullmatch('[А-ЯЁ][а-яё]{3,9}', color):
+        flash_list.append('Неверно введён цвет авто! Цвет пишется кириллицей, начиная с заглавной буквы.')
     if not re.fullmatch('[А-ЯЁ]\d{3}[А-ЯЁ]{2}\d{2,3}', numberplate):
         flash_list.append('Неверно введён номер. Примеры правилно введённого номера: А777МД73, В666АД199')
+    if not re.fullmatch('\d{4}', year):
+        flash_list.append('Неверно введён год!')
     if not re.fullmatch('[A-Z1-9]{17}', vin):
         flash_list.append('Неправильно введён VIN. Он состоит из 17 латинских симовлов или арабских цифр!')
     if not re.fullmatch('\d{10}', sts):

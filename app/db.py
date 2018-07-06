@@ -117,7 +117,7 @@ def update_driver(driver_id, new_second_name, new_first_name, new_middle_nam, ne
 def get_all_cars():
     conn, cur = get_db()
     car_rows = cur.execute(
-        'SELECT id, brand, model, numberplate, vin, sts, driver_id FROM cars'
+        'SELECT id, brand, model, color, year, numberplate, vin, sts, driver_id FROM cars'
     ).fetchall()
     cars = []
     for car_row in car_rows:
@@ -125,10 +125,12 @@ def get_all_cars():
             'id': car_row[0],
             'brand': car_row[1],
             'model': car_row[2],
-            'numberplate': car_row[3],
-            'vin': car_row[4],
-            'sts': car_row[5],
-            'driver_id': car_row[6]
+            'color': car_row[3],
+            'year': car_row[4],
+            'numberplate': car_row[5],
+            'vin': car_row[6],
+            'sts': car_row[7],
+            'driver_id': car_row[8]
         }
         cars.append(car)
     return cars
@@ -148,27 +150,29 @@ def get_unengaged_cars():
 def get_car(car_id):
     conn, cur = get_db()
     car_row = cur.execute(
-        'SELECT brand, model, numberplate, vin, sts, driver_id FROM cars WHERE id = ?',
+        'SELECT brand, model, color, year, numberplate, vin, sts, driver_id FROM cars WHERE id = ?',
         [car_id]
     ).fetchone()
     car = {
         'id': car_id,
         'brand': car_row[0],
         'model': car_row[1],
-        'numberplate': car_row[2],
-        'vin': car_row[3],
-        'sts': car_row[4],
-        'driver_id': car_row[5]
+        'color': car_row[2],
+        'year': car_row[3],
+        'numberplate': car_row[4],
+        'vin': car_row[5],
+        'sts': car_row[6],
+        'driver_id': car_row[7]
     }
     return car
 
 
 # Add new car
-def add_car(brand, model, numberplate, vin, sts):
+def add_car(brand, model, color, year, numberplate, vin, sts):
     conn, cur = get_db()
     cur.execute(
-        'INSERT INTO cars (brand, model, numberplate, vin, sts) VALUES (?, ?, ?, ?, ?)',
-        [brand, model, numberplate, vin, sts]
+        'INSERT INTO cars (brand, model, color, year, numberplate, vin, sts) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [brand, model, color, year, numberplate, vin, sts]
     )
     max_id = cur.execute('SELECT MAX(id) FROM cars').fetchone()
     max_id = max_id[0]
@@ -180,10 +184,10 @@ def add_car(brand, model, numberplate, vin, sts):
 
 
 # Update car
-def update_car(car_id, new_brand, new_model, new_numberplate, new_vin, new_sts):
+def update_car(car_id, new_brand, new_model, new_color, new_year, new_numberplate, new_vin, new_sts):
     conn, cur = get_db()
-    cur.execute('UPDATE cars SET brand = ?, model =?, numberplate = ?, vin = ?, sts = ? WHERE id = ?',
-                [new_brand, new_model, new_numberplate, new_vin, new_sts, car_id])
+    cur.execute('UPDATE cars SET brand = ?, model =?, color = ?, year = ?, numberplate = ?, vin = ?, sts = ? WHERE id = ?',
+                [new_brand, new_model, new_color, new_year, new_numberplate, new_vin, new_sts, car_id])
     cur.execute(
         'INSERT INTO event (date, event_type, int_field) VALUES (?, ?, ?)',
         [datetime.datetime.now().strftime(time_format), 'update_driver', car_id]
@@ -266,6 +270,8 @@ def get_acts():
             'middle_name': driver['middle_name'],
             'brand': car['brand'],
             'model': car['model'],
+            'color': car['color'],
+            'year': car['year'],
             'numberplate': car['numberplate'],
             'vin': car['vin']
         }

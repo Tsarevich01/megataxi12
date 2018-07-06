@@ -9,7 +9,7 @@
             <p>
 
                 <a href="/cars/{{ car.id }}">
-                    {{ car.brand }}      {{ car.model }}        {{ car.numberplate }}
+                    {{ car.brand }}      {{ car.model }}         {{ car.color }}        {{ car.numberplate }}        {{ car.year }}
                 </a>
 
             </p>
@@ -30,8 +30,16 @@
       <input type="text" class="form-control" id="model" name="model" placeholder="Kalina">
     </div>
     <div class="form-group">
+      <label for="first_name">Цвет</label>
+      <input type="text" class="form-control" id="color" name="color" placeholder="Красный">
+    </div>
+    <div class="form-group">
       <label for="middle_name">Номерной знак</label>
       <input type="text" class="form-control" id="numberplate" name="numberplate" placeholder="C777CC73">
+    </div>
+    <div class="form-group">
+      <label for="first_name">Год</label>
+      <input type="text" class="form-control" id="year" name="year" placeholder="2010">
     </div>
     <div class="form-group">
       <label for="series">VIN номер</label>
@@ -39,7 +47,7 @@
     </div>
     <div class="form-group">
       <label for="number">СТС</label>
-      <input type="text" class="form-control" id="sts" name="sts" placeholder="sadfdsgs">
+      <input type="text" class="form-control" id="sts" name="sts" placeholder="1234567891">
     </div>
 
     <button type="submit" class="btn btn-primary">Добавить</button>

@@ -96,22 +96,16 @@ def add_driver(second_name, first_name, middle_name, series, number):
 # Update driver
 def update_driver(driver_id, new_second_name, new_first_name, new_middle_nam, new_series, new_number, new_block=0, new_block_reason=None, new_car_id = None):
     conn, cur = get_db()
-    last_car_id = cur.execute('SELECT car_id FROM driver WHERE id=?',[driver_id]).fetchone()[0]
     series_number = new_series + new_number
     cur.execute('UPDATE driver SET second_name = ?, first_name =?, middle_name = ?, series_number = ?, block = ?, block_reason = ?, car_id = ? WHERE id = ?',
                 [new_second_name, new_first_name, new_middle_nam, series_number, new_block, new_block_reason, new_car_id, driver_id])
     if new_block == 1:
         cur.execute(
-            'INSERT INTO event (date, event_type, int_field, text_field) VALUES (?, ?, ?, ?)',
+            'INSERT INTO event (date, event_type, int_field, txt_field) VALUES (?, ?, ?, ?)',
             [datetime.datetime.now().strftime(time_format), 'add_to_bl', driver_id, new_block_reason]
         )
         conn.commit()
         return
-    elif new_car_id != last_car_id:
-        cur.execute(
-            'INSERT INTO event (date, event_type, int_field, text_field) VALUES (?, ?, ?, ?)',
-            [datetime.datetime.now().strftime(time_format), 'change_car', driver_id, str(new_car_id)]
-        )
     cur.execute(
         'INSERT INTO event (date, event_type, int_field) VALUES (?, ?, ?)',
         [datetime.datetime.now().strftime(time_format), 'update_driver', driver_id]
@@ -138,6 +132,16 @@ def get_all_cars():
         }
         cars.append(car)
     return cars
+
+
+# Get unengaged cars
+def get_unengaged_cars():
+    cars = get_all_cars()
+    unengaged_cars = []
+    for car in cars:
+        if car['driver_id'] == None:
+            unengaged_cars.append(car)
+    return unengaged_cars
 
 
 # Get one car
@@ -187,6 +191,27 @@ def update_car(car_id, new_brand, new_model, new_numberplate, new_vin, new_sts):
     conn.commit()
 
 
+# Change car
+def change_car(driver_id, car_id):
+    conn, cur = get_db()
+    last_car_id = cur.execute('SELECT car_id FROM driver WHERE id = ?', [driver_id]).fetchone()[0]
+    if car_id == 0:
+        cur.execute('UPDATE driver SET car_id = ? WHERE id = ?', [None, driver_id])
+        cur.execute('UPDATE cars SET driver_id = ? WHERE id = ?', [None, last_car_id])
+        cur.execute(
+            'INSERT INTO event (date, event_type, int_field, txt_field) VALUES (?, ?, ?, ?)',
+            [datetime.datetime.now().strftime(time_format), 'return_car', driver_id, car_id]
+        )
+    else:
+        cur.execute('UPDATE driver SET car_id = ? WHERE id = ?', [car_id, driver_id])
+        cur.execute('UPDATE cars SET driver_id = ? WHERE id = ?', [driver_id, car_id])
+        cur.execute(
+            'INSERT INTO event (date, event_type, int_field, txt_field) VALUES (?, ?, ?, ?)',
+            [datetime.datetime.now().strftime(time_format), 'get_car', driver_id, car_id]
+        )
+    conn.commit()
+
+
 # Get history
 def get_history():
     conn, cur = get_db()
@@ -206,7 +231,7 @@ def get_history():
         elif event_type == 'add_to_bl':
             driver = get_driver(int_field)
             additional_field = driver['second_name'] + ' ' + driver['first_name']
-        elif event_type == 'change_car':
+        elif event_type == 'get_car' or event_type == 'return_car':
             driver = get_driver(int_field)
             car = get_car(int_field)
             txt_field = driver['second_name'] + ' ' + driver['first_name'] + ' ' + driver['middle_name'] + ' ' + driver['series'] + ' ' + driver['number']
@@ -222,11 +247,12 @@ def get_history():
     return his
 
 
+# Get acts
 def get_acts():
     his = get_history()
     acts = []
     for event in his:
-        if event['event_type'] != 'change_car':
+        if event['event_type'] != 'get_car':
             continue
         second_name, first_name, middle_name, series, number = event['txt_field'].split(' ')
         brand, model, numberplate = event['additional_field'].split(' ')

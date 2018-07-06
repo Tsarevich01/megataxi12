@@ -4,10 +4,12 @@
 <form method="post" action="input5.php">
    <h3>Список актов на печать</h3>
     {% if acts %}
-        {% for act in acts %}
-           <input type="checkbox" name="option1" value="act" checked>Акт передачи водителю {{ act.second_name }} {{ act.first_name }} {{ act.middle_name }} {{ act.series }} {{ act.number }} авто {{ act.brand }} {{ act.model }} {{ act.numberplate }}<Br>
-           <p><input type="submit" value="Отправить"></p>
-        {% endfor %}
+        <div>
+            {% for act in acts %}
+                <input type="checkbox" name="option1" value="act" checked>Акт передачи водителю {{ act.second_name }} {{ act.first_name }} {{ act.middle_name }} {{ act.series }} {{ act.number }} автомобиля {{ act.brand }} {{ act.model }} {{ act.numberplate }}<Br>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Распечатать выделенные</button>
     {% else %}
         <p>Список актов пуст</p>
     {% endif %}

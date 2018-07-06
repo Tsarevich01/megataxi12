@@ -2,6 +2,7 @@
 
 {% block content %}
     <h2>История событий</h2>
+    <div>
     {% for event in his %}
         <p>
 
@@ -15,12 +16,15 @@
         {{ event.date }}:   Информация об автомобиле {{ event.txt_field }} изменена
         {% elif event.event_type == 'add_to_bl' %}
         {{ event.date }}:   Водитель {{ event.additional_field }} добавлен в ЧС по причине: {{ event.txt_field }}
-        {% elif event.event_type == 'change_car' %}
+        {% elif event.event_type == 'get_car' %}
         {{ event.date }}:   Водитель {{ event.txt_field }} получил автомобиль {{ event.additional_field }}
+        {% elif event.event_type == 'return_car' %}
+        {{ event.date }}:   Водитель {{ event.txt_field }} вернул автомобиль {{ event.additional_field }}
         {% endif %}
 
         </p>
     {% endfor %}
+    </div>
 {% endblock %}
 {% block right_content %}
     <head>

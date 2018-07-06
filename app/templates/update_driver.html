@@ -28,8 +28,6 @@
         <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
 
 
-
-        <a href="#" style="margin-top: 200px">Составить акт</a>
         <script>
             $(document).ready(function(){
                 //Скрыть PopUp при загрузке страницы
@@ -45,26 +43,29 @@
             }
         </script>
         <div class="b-container">
+        {% if driver.car_id != None %}
+            <p><b>Сейчас работает на {{ drivers_car.brand }} {{ drivers_car.model }} {{ drivers_car.numberplate }}</b></p>
+            <a href="{{ driver.id }}/gets_car/0">Вернуть авто в таксопарк</a>
+        {% else %}
         <a href="javascript:PopUpShow()">Выберете машину</a>
         </div>
         <div class="b-popup" id="popup2">
             <div class="b-popup-content">
-
-                    {% if act_cars %}
-                        {% for car in act_cars %}
-                            <p>
-                                <a href="/acts/{{ driver.id }}">
-                                    {{ car.id }}.{{ car.brand }} {{ car.model }} {{ car.numberplate }}
-                                </a>
-                            </p>
-                        {% endfor %}
-                    {% else %}
-                        <p>Список авто пуст</p>
-                    {% endif %}
-
+            {% if cars %}
+                {% for car in cars %}
+                    <p>
+                        <a href="{{ driver.id }}/gets_car/{{ car.id }}">
+                            {{ car.brand }} {{ car.model }} {{ car.numberplate }}
+                        </a>
+                    </p>
+                {% endfor %}
+            {% else %}
+                <p>Список авто пуст</p>
+            {% endif %}
             <a href="javascript:PopUpHide()">Закрыть</a>
             </div>
         </div>
+        {% endif %}
 
     </form>
 {% endblock %}

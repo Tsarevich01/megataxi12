@@ -36,8 +36,8 @@ def acts():
 
 @app.route('/acts/<int:driver_id>', methods=['POST', 'GET'])
 def act(driver_id):
-    akt = db.get_driver(driver_id)
-    return render_template('acts_print.html', title='Акт', akt=akt, created=datetime.datetime(2018, 6, 13, 13, 00, 00))
+    act = db.get_acts()
+    return render_template('acts_print.html', title='Акт', act=act, created=datetime.datetime(2018, 6, 13, 13, 00, 00))
 
 
 # ЧС
@@ -91,7 +91,10 @@ def add_driver():
 @app.route('/drivers/<int:driver_id>', methods=['POST', 'GET'])
 def update_driver(driver_id):
     driver = db.get_driver(driver_id)
-    act_cars = db.get_all_cars()
+    cars = db.get_unengaged_cars()
+    drivers_car = {}
+    if driver['car_id'] != None:
+        drivers_car = db.get_car(driver['car_id'])
     if request.method == 'POST':
         driver_id = request.form['driver_id']
         new_second_name = request.form['second_name']
@@ -104,6 +107,7 @@ def update_driver(driver_id):
         # if new_second_name==driver.second_name or new_first_name==driver.first_name or new_middle_name==driver.middle_name or new_series==driver.series or new_number==driver.number:
         #     flash('Вы не сделали никаких изменений')
         #     return redirect(url_for('drivers'))
+
         if check_driver_info_errors(new_second_name, new_first_name, new_middle_name, new_series, new_number):
             return redirect(url_for('drivers'))
         try:
@@ -115,8 +119,15 @@ def update_driver(driver_id):
         #     return render_template('blacklist.html', driver=driver)
         # else:
         return redirect(url_for('drivers'))
+    return render_template('update_driver.html', driver=driver, cars=cars, drivers_car=drivers_car)
 
-    return render_template('update_driver.html', driver=driver, act_cars=act_cars)
+
+# Change car
+@app.route('/drivers/<int:driver_id>/gets_car/<int:car_id>')
+def change_car(driver_id, car_id):
+    db.change_car(driver_id, car_id)
+    flash('Авто передано')
+    return redirect(url_for('drivers'))
 
 
 # Список авто

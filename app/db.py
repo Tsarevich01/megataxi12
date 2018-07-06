@@ -234,7 +234,7 @@ def get_history():
         elif event_type == 'get_car' or event_type == 'return_car':
             driver = get_driver(int_field)
             car = get_car(int_field)
-            txt_field = driver['second_name'] + ' ' + driver['first_name'] + ' ' + driver['middle_name'] + ' ' + driver['series'] + ' ' + driver['number']
+            txt_field = driver['second_name'] + ' ' + driver['first_name'][0] + '.' + driver['middle_name'][0] + '.'
             additional_field = car['brand'] + ' ' + car['model'] + ' ' + car['numberplate']
         event = {
             'date': his_row[0],
@@ -249,22 +249,25 @@ def get_history():
 
 # Get acts
 def get_acts():
-    his = get_history()
+    conn, cur = get_db()
+    his = cur.execute('SELECT id, date, int_field, txt_field FROM event WHERE event_type = ?', ['get_car']).fetchall()
     acts = []
     for event in his:
-        if event['event_type'] != 'get_car':
-            continue
-        second_name, first_name, middle_name, series, number = event['txt_field'].split(' ')
-        brand, model, numberplate = event['additional_field'].split(' ')
+        driver = get_driver(event[2])
+        car = get_car(int(event[3]))
+        date, time = event[1].split(' ')
+        time = time[:-3]
         act = {
-            'second_name': second_name,
-            'first_name': first_name,
-            'middle_name': middle_name,
-            'series': series,
-            'number': number,
-            'brand': brand,
-            'model': model,
-            'numberplate': numberplate
+            'id': event[0],
+            'date': date,
+            'time': time,
+            'second_name': driver['second_name'],
+            'first_name': driver['first_name'],
+            'middle_name': driver['middle_name'],
+            'brand': car['brand'],
+            'model': car['model'],
+            'numberplate': car['numberplate'],
+            'vin': car['vin']
         }
         acts.append(act)
     return acts

@@ -6,7 +6,7 @@
     {% if acts %}
         <div>
             {% for act in acts %}
-                <input type="checkbox" name="option1" value="act" checked>Акт передачи водителю {{ act.second_name }} {{ act.first_name }} {{ act.middle_name }} {{ act.series }} {{ act.number }} автомобиля {{ act.brand }} {{ act.model }} {{ act.numberplate }}<Br>
+                <input type="checkbox" name="option1" value="act" ><a href="acts/{{ act.id }}" target="_blank">Акт передачи водителю {{ act.second_name }} {{ act.first_name }} {{ act.middle_name }} {{ act.series }} {{ act.number }} автомобиля {{ act.brand }} {{ act.model }} {{ act.numberplate }} от {{ act.date }}</a><Br>
             {% endfor %}
         </div>
         <button type="submit" class="btn btn-primary">Распечатать выделенные</button>

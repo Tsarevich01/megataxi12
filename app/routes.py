@@ -30,14 +30,16 @@ def login():
 @app.route('/acts')
 def acts():
     acts = db.get_acts()[::-1]
-    print(acts)
     return render_template('acts.html', title='Акты', acts=acts)
 
 
-@app.route('/acts/<int:driver_id>', methods=['POST', 'GET'])
-def act(driver_id):
-    act = db.get_acts()
-    return render_template('acts_print.html', title='Акт', act=act, created=datetime.datetime(2018, 6, 13, 13, 00, 00))
+# Один акт на печать
+@app.route('/acts/<int:id>')
+def act(id):
+    acts = db.get_acts()
+    for act in acts:
+        if act['id'] == id:
+            return render_template('acts_print.html', title='Акт', act=act)
 
 
 # ЧС

@@ -25,7 +25,7 @@
 	<td></td>
 	<td></td>
 	<td></td>
-	<td colspan="4" >Время ___:___27 июня 2018 г.</td>
+	<td colspan="4" >Время {{ act.time }}  {{ act.date }} г.</td>
 	<tr height="25px;">
 		<td colspan="6"></td>
 	</tr>
@@ -37,15 +37,15 @@
 	<tr style="font-weight: bold;text-align: center;">
 		<td style="border: 1px solid #000;border-top: 3px solid #000;border-left: 3px solid #000;border-bottom: 2px solid #000;">1</td>
 		<td style="border: 1px solid #000;border-top: 3px solid #000;border-bottom: 2px solid #000;">Марка, модель</td>
-		<td style="border: 1px solid #000;border-top: 3px solid #000;border-bottom: 2px solid #000;">{{  }}</td></tr>
+		<td style="border: 1px solid #000;border-top: 3px solid #000;border-bottom: 2px solid #000;">{{ act.brand }} {{ act.model }}</td></tr>
 	<tr style="font-weight: bold;text-align: center;">
 		<td style="border: 1px solid #000;border-top: 3px solid #000;border-left: 3px solid #000;border-bottom: 2px solid #000;">2</td>
 		<td style="border: 1px solid #000;border-top: 3px solid #000;border-bottom: 2px solid #000;">Регистрационный знак</td>
-		<td style="border: 1px solid #000;border-top: 3px solid #000;border-bottom: 2px solid #000;">#</td></tr>
+		<td style="border: 1px solid #000;border-top: 3px solid #000;border-bottom: 2px solid #000;">{{ act.numberplate }}</td></tr>
 	<tr style="font-weight: bold;text-align: center;">
 		<td style="border: 1px solid #000;border-top: 3px solid #000;border-left: 3px solid #000;border-bottom: 2px solid #000;">3</td>
 		<td style="border: 1px solid #000;border-top: 3px solid #000;border-bottom: 2px solid #000;">Идентификационный номер (VIN)</td>
-		<td style="border: 1px solid #000;border-top: 3px solid #000;border-bottom: 2px solid #000;">#</td></tr>
+		<td style="border: 1px solid #000;border-top: 3px solid #000;border-bottom: 2px solid #000;">{{ act.vin }}</td></tr>
 	<tr style="font-weight: bold;text-align: center;">
 	<td style="border: 1px solid #000;border-top: 3px solid #000;border-left: 3px solid #000;border-bottom: 2px solid #000;">4</td>
 		<td style="border: 1px solid #000;border-top: 3px solid #000;border-bottom: 2px solid #000;">Год выпуска</td>
